@@ -18,9 +18,9 @@
 [ext_resource path="res://src/assets/arts/trailer/sprite_15.png" type="Texture" id=16]
 [ext_resource path="res://src/assets/arts/trailer/sprite_16.png" type="Texture" id=17]
 [ext_resource path="res://src/assets/arts/trailer/sprite_17.png" type="Texture" id=18]
-[ext_resource path="res://src/scenes/screens/start/start.gd" type="Script" id=19]
+[ext_resource path="res://src/scripts/start.gd" type="Script" id=19]
 [ext_resource path="res://src/assets/audio/music/top jun.wav" type="AudioStream" id=20]
-[ext_resource path="res://src/scenes/screens/start/start_game.gd" type="Script" id=21]
+[ext_resource path="res://src/scripts/start_game.gd" type="Script" id=21]
 [ext_resource path="res://src/assets/fonts/Royalacid.ttf" type="DynamicFontData" id=22]
 
 [sub_resource type="SpriteFrames" id=1]
