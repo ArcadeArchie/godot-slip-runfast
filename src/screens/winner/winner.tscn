@@ -71,7 +71,7 @@ margin_top = 307.0
 margin_right = 283.5
 margin_bottom = 393.0
 custom_fonts/font = SubResource( 2 )
-text = "YOU WINNER"
+text = "YOU WIN"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
