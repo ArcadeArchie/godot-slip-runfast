@@ -28,7 +28,7 @@ var NEW_GRAMME:Color
 var lines = []
 
 var current_position = 0
-var lines_lenght
+var lines_length
 
 var camera_x = 0
 
@@ -125,11 +125,11 @@ func _draw():
 	
 	for n in range(start_point, start_point + 300):
 	
-		var line_instance = lines[n%lines_lenght]
+		var line_instance = lines[n%lines_length]
 	
-		var current_line = line_instance.screen_coordinates(($car.position.x - 960) - accumulate_curve, cam_horizontal, (start_point * SEGMENT_LENGHT) - (lines_lenght * SEGMENT_LENGHT if n >= lines_lenght else 0), CAMERA_DEPTH, RUNWAY_WIDTH, WIDTH, HEIGHT)
+		var current_line = line_instance.screen_coordinates(($car.position.x - 960) - accumulate_curve, cam_horizontal, (start_point * SEGMENT_LENGHT) - (lines_length * SEGMENT_LENGHT if n >= lines_length else 0), CAMERA_DEPTH, RUNWAY_WIDTH, WIDTH, HEIGHT)
 		
-		var previous_line = lines[(n - 1) % lines_lenght]
+		var previous_line = lines[(n - 1) % lines_length]
 	
 		if $car.position.x < 160:
 			$car/body/AnimatedSprite.play("curve_right")
@@ -165,7 +165,7 @@ func init():
 		lines[index].set_world_z(index * SEGMENT_LENGHT)
 		
 		controller_runway(index)
-	lines_lenght = lines.size()
+	lines_length = lines.size()
 	set_process(true)
 	
 	
@@ -230,7 +230,7 @@ func start_timer():
 		$music.play()
 
 
-func trigger_winner():
+func trigger_winner() -> void:
 	if winner:
 		get_tree().change_scene("res://src/screens/winner/winner.tscn")
 	
@@ -258,7 +258,7 @@ func controller_skyline(start_point):
 
 func draw_sprites():
 	if controller_draw_sprites:
-		for i in range(lines_lenght):
+		for i in range(lines_length):
 			var current = lines[i]
 			if current.get_sprite():
 				set_state_sprite(current.get_name_sprite())
@@ -272,7 +272,7 @@ func draw_sprites():
 func update_position_sprites(start_point):
 	var aux = start_point + 300
 	while aux > start_point:
-		var current = lines[aux%lines_lenght]
+		var current = lines[aux%lines_length]
 		if current.get_sprite():
 			set_state_sprite(current.get_name_sprite())
 
@@ -287,11 +287,11 @@ func set_state_sprite(state):
 
 
 func controller_position():
-	while current_position >= (lines_lenght * SEGMENT_LENGHT):
+	while current_position >= (lines_length * SEGMENT_LENGHT):
 		quantity_return += 1
-		current_position -= (lines_lenght * SEGMENT_LENGHT)
+		current_position -= (lines_length * SEGMENT_LENGHT)
 	while current_position < 0:
-		current_position += (lines_lenght * SEGMENT_LENGHT)
+		current_position += (lines_length * SEGMENT_LENGHT)
 
 
 func controller_inputs():
