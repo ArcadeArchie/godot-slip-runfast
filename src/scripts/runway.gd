@@ -1,6 +1,6 @@
 extends Node2D
 
-onready var road_block = preload("res://src/scenes/runway_objects/road_block.tscn")
+onready var road_block = preload("res://src/scenes/runway/runway_objects/road_block.tscn")
 onready var line = preload("res://src/scripts/Line.gd")
 
 var WIDTH = 1920
@@ -232,7 +232,7 @@ func start_timer():
 
 func trigger_winner() -> void:
 	if winner:
-		get_tree().change_scene("res://src/screens/winner/winner.tscn")
+		get_tree().change_scene("res://src/scenes/screens/winner.tscn")
 	
 	
 func _input(event):
