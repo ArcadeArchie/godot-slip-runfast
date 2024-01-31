@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "ms-dotnettools.vscode-dotnet-runtime",
+        "ms-dotnettools.csdevkit",
+        "eamodio.gitlens",
+        "ms-dotnettools.vscodeintellicode-csharp",
+        "neikeq.godot-csharp-vscode"
+    ]
+}
