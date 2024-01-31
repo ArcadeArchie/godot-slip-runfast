@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://fonts/kenvector_future.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://fonts/ui_theme.tres" type="Theme" id=2]
+[ext_resource path="res://src/assets/fonts/kenvector_future.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://src/assets/fonts/ui_theme.tres" type="Theme" id=2]
 [ext_resource path="res://src/screens/pause/pause.gd" type="Script" id=3]
 [ext_resource path="res://src/screens/pause/button_retry.gd" type="Script" id=4]
 [ext_resource path="res://src/screens/pause/button_quit.gd" type="Script" id=5]

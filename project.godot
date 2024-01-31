@@ -91,6 +91,10 @@ pause={
 2d_physics/layer_1="player_car"
 2d_physics/layer_2="road_block"
 
+[mono]
+
+project/assembly_name="godot-slip-runfast"
+
 [physics]
 
 2d/thread_model=2

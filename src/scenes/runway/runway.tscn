@@ -7,7 +7,7 @@
 [ext_resource path="res://src/screens/return/hud_return.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/screens/timer/hud_timer_step.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/screens/pause/pause.tscn" type="PackedScene" id=7]
-[ext_resource path="res://audio/music/BRIDGE (mmaze2).wav" type="AudioStream" id=8]
+[ext_resource path="res://src/assets/audio/music/BRIDGE (mmaze2).wav" type="AudioStream" id=8]
 
 [node name="runway" type="Node"]
 

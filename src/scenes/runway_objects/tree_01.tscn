@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://arts/world/tree_01.png" type="Texture" id=1]
+[ext_resource path="res://src/assets/arts/world/tree_01.png" type="Texture" id=1]
 
 [node name="tree_01" type="Node2D"]
 
