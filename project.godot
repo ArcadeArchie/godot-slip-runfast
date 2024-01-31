@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "",
+"base": "EditorVCSInterface",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://addons/godot-git-plugin/git_api.gdns"
@@ -28,6 +28,12 @@ config/icon="res://icon.png"
 [autoload]
 
 player_data="*res://src/scenes/autoload/player_data.tscn"
+
+[debug]
+
+settings/fps/force_fps=60
+settings/stdout/print_fps=true
+settings/stdout/verbose_stdout=true
 
 [display]
 
@@ -109,11 +115,14 @@ project/assembly_name="godot-slip-runfast"
 [physics]
 
 2d/thread_model=2
+common/enable_object_picking=false
 
 [rendering]
 
 quality/driver/driver_name="GLES2"
 quality/driver/fallback_to_gles2=true
+2d/options/use_nvidia_rect_flicker_workaround=true
 quality/intended_usage/framebuffer_allocation.mobile=2
+quality/depth/hdr=false
 environment/default_environment="res://default_env.tres"
 quality/dynamic_fonts/use_oversampling=false
