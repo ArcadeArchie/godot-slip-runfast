@@ -236,10 +236,10 @@ func trigger_winner() -> void:
 	
 	
 func _input(event):
-    if event.is_action_pressed("ui_up"):
-        up_is_pressed = true
-    elif event.is_action_released("ui_up"):
-        up_is_pressed = false
+	if event.is_action_pressed("ui_up"):
+		up_is_pressed = true
+	elif event.is_action_released("ui_up"):
+		up_is_pressed = false
 
 
 func render_polygon(color, x1, y1, w1, x2, y2, w2):

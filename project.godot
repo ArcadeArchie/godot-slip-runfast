@@ -15,13 +15,13 @@ _global_script_class_icons={
 [application]
 
 config/name="godot-slip-runfast"
-run/main_scene="res://src/main/main.tscn"
+run/main_scene="res://src/scenes/main.tscn"
 run/low_processor_mode=true
 config/icon="res://icon.png"
 
 [autoload]
 
-player_data="*res://src/autoload/player_data.tscn"
+player_data="*res://src/scenes/autoload/player_data.tscn"
 
 [display]
 
