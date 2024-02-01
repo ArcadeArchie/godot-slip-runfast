@@ -341,24 +341,40 @@ func add_colors(index):
 		lines[index].set_color_divid_line(Color(204, 204, 204))
 	
 
-func controller_runway(index):
+var curves = {
+	CURVE_RIGHT01 = 2.5,
+	CURVE_RIGHT02 = 3.5,
+	CURVE_RIGHT03 = 4.5,
+	CURVE_RIGHT04 = 5.5,
+	CURVE_RIGHT05 = 0.0,
+	CURVE_RIGHT06 = 7.5,
 	
-	var curves = {
-		CURVE_RIGHT01 = 2.5,
-		CURVE_RIGHT02 = 3.5,
-		CURVE_RIGHT03 = 4.5,
-		CURVE_RIGHT04 = 5.5,
-		CURVE_RIGHT05 = 0.0,
-		CURVE_RIGHT06 = 7.5,
-		
-		CURVE_LEFT01 = -2.5,
-		CURVE_LEFT02 = -3.5,
-		CURVE_LEFT03 = -4.5,
-		CURVE_LEFT04 = -5.5,
-		CURVE_LEFT05 = 0.0,
-		CURVE_LEFT06 = -7.5
-	}
-	
+	CURVE_LEFT01 = -2.5,
+	CURVE_LEFT02 = -3.5,
+	CURVE_LEFT03 = -4.5,
+	CURVE_LEFT04 = -5.5,
+	CURVE_LEFT05 = 0.0,
+	CURVE_LEFT06 = -7.5
+}
+var curve_conditions = [
+	{"start": 150, "end": 250, "curve": curves.CURVE_RIGHT02},
+	{"start": 250, "end": 350, "curve": curves.CURVE_RIGHT03},
+	{"start": 350, "end": 550, "curve": curves.CURVE_RIGHT05},
+	{"start": 550, "end": 650, "curve": curves.CURVE_RIGHT06},
+	{"start": 650, "end": 1000, "curve": curves.CURVE_LEFT04},
+	{"start": 1000, "end": 1200, "curve": curves.CURVE_LEFT05},
+	{"start": 1200, "end": 1400, "curve": curves.CURVE_RIGHT06},
+	{"start": 1400, "end": 1600, "curve": curves.CURVE_RIGHT03},
+	{"start": 1600, "end": 1800, "curve": curves.CURVE_RIGHT05},
+	{"start": 1800, "end": 2000, "curve": curves.CURVE_LEFT03},
+	{"start": 2000, "end": 2200, "curve": curves.CURVE_LEFT05},
+	{"start": 2200, "end": 2400, "curve": curves.CURVE_RIGHT05},
+	{"start": 2400, "end": 2600, "curve": curves.CURVE_RIGHT06},
+	{"start": 2600, "end": 2800, "curve": curves.CURVE_LEFT05},
+	{"start": 2800, "end": 3000, "curve": curves.CURVE_LEFT06},
+]
+
+func controller_runway(index):	
 	var instance_road_block = road_block.instance()
 	
 	if (index > 200 && index % 140 == 0):
@@ -367,38 +383,13 @@ func controller_runway(index):
 		lines[index].set_sprite_x(rand_range(-2, 2))
 	
 	# Curve on right
+	for condition in curve_conditions:
+		if index > condition["start"] && index < condition["end"]:
+			lines[index].set_curve(condition["curve"])
 	
-	if (index > 50 && index < 150): lines[index].set_curve(curves.CURVE_RIGHT01)
-	if (index > 150 && index < 250): lines[index].set_curve(curves.CURVE_RIGHT02)
-	if (index > 250 && index < 350): lines[index].set_curve(curves.CURVE_RIGHT03)
-	if (index > 350 && index < 550): lines[index].set_curve(curves.CURVE_RIGHT05)
-	if (index > 550 && index < 650): lines[index].set_curve(curves.CURVE_RIGHT06)
-	
-	# Curve on left
-	
-	if (index > 650 && index < 1000): lines[index].set_curve(curves.CURVE_LEFT04)
-	if (index > 1000 && index < 1200): lines[index].set_curve(curves.CURVE_LEFT05)
-	if (index > 1200 && index < 1400): lines[index].set_curve(curves.CURVE_RIGHT06)
-	
-	# Curve on right
-	
-	if (index > 1400 && index < 1600): lines[index].set_curve(curves.CURVE_RIGHT03)
-	if (index > 1600 && index < 1800): lines[index].set_curve(curves.CURVE_RIGHT05)
-	
-	# Curve on left
-	
-	if (index > 1800 && index < 2000): lines[index].set_curve(curves.CURVE_LEFT03)
-	if (index > 2000 && index < 2200): lines[index].set_curve(curves.CURVE_LEFT05)
-	
-	# Curve on right
-	
-	if (index > 2200 && index < 2400): lines[index].set_curve(curves.CURVE_RIGHT05)
-	if (index > 2400 && index < 2600): lines[index].set_curve(curves.CURVE_RIGHT06)
-	
-	# Curve on left
-	
-	if (index > 2600 && index < 2800): lines[index].set_curve(curves.CURVE_LEFT05)
-	if (index > 3000): lines[index].set_curve(curves.CURVE_LEFT06)
+	# Additional condition for the last case
+	if index > 3000:
+		lines[index].set_curve(curves.CURVE_LEFT06)
 	
 	
 func _on_car_collision():
