@@ -390,7 +390,11 @@ func controller_runway(index):
 	
 	
 func _on_car_collision():
+<<<<<<< Updated upstream
 	current_position -= 2000
+=======
+	current_position += -2000
+>>>>>>> Stashed changes
 	speed = 0
 
 
