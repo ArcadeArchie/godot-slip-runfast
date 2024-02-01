@@ -6,9 +6,9 @@ onready var line = preload("res://src/scripts/Line.gd")
 var WIDTH = 1920
 var HEIGHT = 1080
 
-export var RUNWAY_LENGHT = 2800
+export var RUNWAY_LENGTH = 2800
 export var RUNWAY_WIDTH = 2500
-export var SEGMENT_LENGHT = 400
+export var SEGMENT_LENGTH = 400
 export var CAMERA_DEPTH = 0.84
 
 export var BORDER:Color
@@ -114,7 +114,7 @@ func _draw():
 	controller_curve(speed_percent)
 	controller_position()
 	
-	var start_point = (current_position / SEGMENT_LENGHT)
+	var start_point = (current_position / SEGMENT_LENGTH)
 	var cam_horizontal = (1800 + lines[start_point].get_world_y())
 	var max_y = HEIGHT
 	
@@ -127,7 +127,7 @@ func _draw():
 	
 		var line_instance = lines[n%lines_length]
 	
-		var current_line = line_instance.screen_coordinates(($car.position.x - 960) - accumulate_curve, cam_horizontal, (start_point * SEGMENT_LENGHT) - (lines_length * SEGMENT_LENGHT if n >= lines_length else 0), CAMERA_DEPTH, RUNWAY_WIDTH, WIDTH, HEIGHT)
+		var current_line = line_instance.screen_coordinates(($car.position.x - 960) - accumulate_curve, cam_horizontal, (start_point * SEGMENT_LENGTH) - (lines_length * SEGMENT_LENGTH if n >= lines_length else 0), CAMERA_DEPTH, RUNWAY_WIDTH, WIDTH, HEIGHT)
 		
 		var previous_line = lines[(n - 1) % lines_length]
 	
@@ -157,12 +157,12 @@ func _draw():
 	
 
 func init():
-	for index in range(RUNWAY_LENGHT):
+	for index in range(RUNWAY_LENGTH):
 		var struture_line = line.Line.new()
 		
 		lines.push_back(struture_line)
 		add_colors(index)
-		lines[index].set_world_z(index * SEGMENT_LENGHT)
+		lines[index].set_world_z(index * SEGMENT_LENGTH)
 		
 		controller_runway(index)
 	lines_length = lines.size()
@@ -178,9 +178,9 @@ func controller_hud_timer():
 		seconds = 0
 
 	if start_time:
-		hud_time.text = "total time   " + str(minutes) + ":" + str(seconds)
+		hud_time.text = "time   " + str(minutes) + ":" + str(seconds)
 	else:
-		hud_time.text = "total time   " + str(0) + ":" + str(0)
+		hud_time.text = "time   " + str(0) + ":" + str(0)
 
 
 func controller_hud_timer_step():
@@ -206,7 +206,7 @@ func controller_hud_timer_step():
 
 
 func controller_hud_return():
-	hud_return.text = "return  " + str(quantity_return) + "/" + "3"
+	hud_return.text = "lap  " + str(quantity_return) + "/" + "3"
 	if quantity_return == 3:
 		instance_timer_step.stop() 
 		instance_timer.stop()
@@ -219,7 +219,7 @@ func controller_hud_return():
 	
 		
 func start_timer():
-	if current_position > RUNWAY_LENGHT && not start_time:
+	if current_position > RUNWAY_LENGTH && not start_time:
 		start_time = true
 		seconds = 0
 		minutes = 0
@@ -287,11 +287,11 @@ func set_state_sprite(state):
 
 
 func controller_position():
-	while current_position >= (lines_length * SEGMENT_LENGHT):
+	while current_position >= (lines_length * SEGMENT_LENGTH):
 		quantity_return += 1
-		current_position -= (lines_length * SEGMENT_LENGHT)
+		current_position -= (lines_length * SEGMENT_LENGTH)
 	while current_position < 0:
-		current_position += (lines_length * SEGMENT_LENGHT)
+		current_position += (lines_length * SEGMENT_LENGTH)
 
 
 func controller_inputs():
@@ -375,14 +375,14 @@ func controller_runway(index):
 		CURVE_RIGHT02 = 3.5,
 		CURVE_RIGHT03 = 4.5,
 		CURVE_RIGHT04 = 5.5,
-		CURVE_RIGHT05 = 6.5,
+		CURVE_RIGHT05 = 0.0,
 		CURVE_RIGHT06 = 7.5,
 		
 		CURVE_LEFT01 = -2.5,
 		CURVE_LEFT02 = -3.5,
 		CURVE_LEFT03 = -4.5,
 		CURVE_LEFT04 = -5.5,
-		CURVE_LEFT05 = -6.5,
+		CURVE_LEFT05 = 0.0,
 		CURVE_LEFT06 = -7.5
 	}
 	
