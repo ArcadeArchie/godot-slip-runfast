@@ -11,7 +11,6 @@ var seconds:= 0 setget set_seconds
 
 
 func reset():
-	losers = 0
 	winner = 0
 	
 func set_winner(state):
