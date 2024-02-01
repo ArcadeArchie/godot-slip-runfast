@@ -144,15 +144,16 @@ func _draw():
 		
 		current_line.set_clip(max_y)
 		
-		if (current_line.get_screen_y() >= max_y): continue
-		max_y = current_line.get_screen_y()
+		var currY = current_line.get_screen_y()
+		var currX = current_line.get_screen_x()
+		var currW = current_line.get_screen_w()
+		
+		if (currY >= max_y): continue
+		max_y = currY
 		
 		var y = previous_line.get_screen_y()
 		var x = previous_line.get_screen_x()
 		var w = previous_line.get_screen_w()
-		var currY = current_line.get_screen_y()
-		var currX = current_line.get_screen_x()
-		var currW = current_line.get_screen_w()
 
 		render_polygon(current_line.get_color_gramme(), 0, y, WIDTH, 0, currY, WIDTH)
 		render_polygon(current_line.get_color_border(), x, y, w * 1.1, currX, currY, currW * 1.1)
