@@ -69,10 +69,10 @@ margin_left = 823.471
 margin_top = 460.0
 margin_right = 1083.47
 margin_bottom = 607.0
-custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0.866667, 0.556863, 0.556863, 1 )
 custom_colors/font_color_hover = Color( 0.917647, 0.568627, 0.192157, 1 )
 custom_colors/font_color_pressed = Color( 0.866667, 0.556863, 0.556863, 1 )
+custom_fonts/font = SubResource( 2 )
 text = "Start"
 flat = true
 script = ExtResource( 21 )
@@ -85,8 +85,8 @@ margin_left = 420.359
 margin_top = 197.816
 margin_right = 1517.36
 margin_bottom = 455.816
-custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0.917647, 0.568627, 0.192157, 1 )
+custom_fonts/font = SubResource( 3 )
 text = "Slip Runfast"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -95,5 +95,6 @@ __meta__ = {
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.6
 autostart = true
+
 [connection signal="button_up" from="start_game" to="start_game" method="_on_start_game_button_up"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_start_game"]
