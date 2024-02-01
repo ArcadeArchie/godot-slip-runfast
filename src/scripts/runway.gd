@@ -102,6 +102,7 @@ func _process(_delta):
 	controller_hud_timer()
 	controller_hud_timer_step()
 	controller_hud_return()
+	start_timer()	
 	update()
 	
 	
@@ -109,7 +110,6 @@ func _draw():
 	
 	var speed_percent = speed / 500
 	
-	start_timer()
 	controller_inputs()
 	controller_curve(speed_percent)
 	controller_position()
