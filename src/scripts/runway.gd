@@ -234,10 +234,8 @@ func draw_sprites():
 			var current = lines[i]
 			if current.get_sprite():
 				set_state_sprite(current.get_name_sprite())
-
-				match current_state:
-					State.road_block:
-						add_child(current.run_sprite(40, 1))
+				if current_state == State.road_block:
+					add_child(current.run_sprite(40, 1))
 	controller_draw_sprites = false
 
 
@@ -392,7 +390,7 @@ func controller_runway(index):
 	
 	
 func _on_car_collision():
-	current_position += -1000
+	current_position -= 2000
 	speed = 0
 
 
