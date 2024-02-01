@@ -147,10 +147,17 @@ func _draw():
 		if (current_line.get_screen_y() >= max_y): continue
 		max_y = current_line.get_screen_y()
 		
-		render_polygon(current_line.get_color_gramme(), 0, previous_line.get_screen_y(), WIDTH, 0, current_line.get_screen_y(), WIDTH)
-		render_polygon(current_line.get_color_border(), previous_line.get_screen_x(), previous_line.get_screen_y(), previous_line.get_screen_w() * 1.1, current_line.get_screen_x(), current_line.get_screen_y(), current_line.get_screen_w() * 1.1)
-		render_polygon(current_line.get_color_runway(), previous_line.get_screen_x(), previous_line.get_screen_y(), previous_line.get_screen_w(), current_line.get_screen_x(), current_line.get_screen_y(), current_line.get_screen_w())
-		render_polygon(current_line.get_color_divid_line(), previous_line.get_screen_x(), previous_line.get_screen_y(), previous_line.get_screen_w() * 0.02, current_line.get_screen_x(), current_line.get_screen_y(), current_line.get_screen_w() * 0.02)
+		var y = previous_line.get_screen_y()
+		var x = previous_line.get_screen_x()
+		var w = previous_line.get_screen_w()
+		var currY = current_line.get_screen_y()
+		var currX = current_line.get_screen_x()
+		var currW = current_line.get_screen_w()
+
+		render_polygon(current_line.get_color_gramme(), 0, y, WIDTH, 0, currY, WIDTH)
+		render_polygon(current_line.get_color_border(), x, y, w * 1.1, currX, currY, currW * 1.1)
+		render_polygon(current_line.get_color_runway(), x, y, w, currX, currY, currW)
+		render_polygon(current_line.get_color_divid_line(), x, y, w * 0.02, currX, currY, currW * 0.02)
 	
 	draw_sprites()
 	update_position_sprites(start_point)
