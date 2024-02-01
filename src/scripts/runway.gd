@@ -222,11 +222,10 @@ func render_polygon(color, x1, y1, w1, x2, y2, w2):
 
 
 func controller_skyline(start_point):
-	if speed > 500 || speed < -500:
-		if speed > 0:
-			skyline.position -= Vector2(lines[start_point].get_curve() * 1, 0)
-		if speed < 0:
-			skyline.position += Vector2(lines[start_point].get_curve() * 1, 0)
+	if speed > 500:
+		skyline.position -= Vector2(lines[start_point].get_curve() * 1, 0)
+	elif speed < -500:
+		skyline.position += Vector2(lines[start_point].get_curve() * 1, 0)
 	
 
 func draw_sprites():
