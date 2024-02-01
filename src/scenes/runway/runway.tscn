@@ -46,6 +46,7 @@ wait_time = 0.1
 
 [node name="timer_step" type="Timer" parent="."]
 wait_time = 0.1
+
 [connection signal="collision" from="runway/car" to="runway" method="_on_car_collision"]
 [connection signal="timeout" from="timer" to="runway" method="_on_timer_finish_line"]
 [connection signal="timeout" from="timer_step" to="runway" method="_on_timer_step"]
