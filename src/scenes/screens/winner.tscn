@@ -56,12 +56,8 @@ margin_top = 415.0
 margin_right = 253.5
 margin_bottom = 500.0
 custom_fonts/font = SubResource( 1 )
-text = "Your timer is:  %s:%s
-Time left:  %s:%s"
+text = "Your timer is:  %s:%s"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="title" type="Label" parent="background"]
 anchor_left = 0.5
@@ -106,5 +102,6 @@ size_flags_vertical = 3
 custom_fonts/font = SubResource( 4 )
 text = "Quit"
 script = ExtResource( 6 )
+
 [connection signal="button_up" from="background/VBoxContainer/play_again" to="background/VBoxContainer/play_again" method="_on_play_again_button_up"]
 [connection signal="button_up" from="background/VBoxContainer/play_quit" to="background/VBoxContainer/play_quit" method="_on_play_quit_button_up"]

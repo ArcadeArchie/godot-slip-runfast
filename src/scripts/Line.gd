@@ -159,7 +159,6 @@ class Line:
 		self._screen_x = ((1 + self._scale * (self._world_x - cam_x)) * width / 2)
 		self._screen_y = ((1 - self._scale * (self._world_y - cam_y)) * height / 2)
 		self._screen_w = (self._scale * road_width * (width / 2))
-		return self
 	
 	
 	func run_sprite(width, height):

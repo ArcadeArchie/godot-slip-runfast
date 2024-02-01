@@ -67,10 +67,6 @@ var quantity_return = 0
 var instance_timer
 
 var instance_timer_step
-var hud_timer_step
-var ms_step = 0
-var minutes_step = 3
-var seconds_step = 0
 
 var start_time = false
 
@@ -82,14 +78,10 @@ func _ready():
 	
 	hud_time = get_node("../hud_time/time")
 	hud_return = get_node("../hud_return/return")
-	hud_timer_step = get_node("../hud_timer_step/time")
 	
 	instance_timer = get_node("../timer")
 	instance_timer.start()
-	
-	instance_timer_step = get_node("../timer_step")
-	instance_timer_step.start()
-	
+		
 	$car.position = Vector2(960, 870)
 	skyline = get_node("../skyline/Sprite")
 	
@@ -100,19 +92,19 @@ func _ready():
 func _process(_delta):
 	trigger_winner()
 	controller_hud_timer()
-	controller_hud_timer_step()
 	controller_hud_return()
 	start_timer()	
-	update()
-	
-	
-func _draw():
 	
 	var speed_percent = speed / 500
 	
 	controller_inputs()
 	controller_curve(speed_percent)
 	controller_position()
+	
+	update()
+	
+	
+func _draw():
 	
 	var start_point = (current_position / SEGMENT_LENGTH)
 	var cam_horizontal = (1800 + lines[start_point].get_world_y())
@@ -125,9 +117,9 @@ func _draw():
 	
 	for n in range(start_point, start_point + 300):
 	
-		var line_instance = lines[n%lines_length]
+		var current_line = lines[n%lines_length]
 	
-		var current_line = line_instance.screen_coordinates(($car.position.x - 960) - accumulate_curve, cam_horizontal, (start_point * SEGMENT_LENGTH) - (lines_length * SEGMENT_LENGTH if n >= lines_length else 0), CAMERA_DEPTH, RUNWAY_WIDTH, WIDTH, HEIGHT)
+		current_line.screen_coordinates(($car.position.x - 960) - accumulate_curve, cam_horizontal, (start_point * SEGMENT_LENGTH) - (lines_length * SEGMENT_LENGTH if n >= lines_length else 0), CAMERA_DEPTH, RUNWAY_WIDTH, WIDTH, HEIGHT)
 		
 		var previous_line = lines[(n - 1) % lines_length]
 	
@@ -177,6 +169,7 @@ func init():
 	set_process(true)
 	
 	
+const formatStr = "Total time: {min}:{sec}"
 func controller_hud_timer():
 	if ms > 9: 
 		seconds += 1
@@ -186,40 +179,15 @@ func controller_hud_timer():
 		seconds = 0
 
 	if start_time:
-		hud_time.text = "time   " + str(minutes) + ":" + str(seconds)
+		hud_time.text = formatStr.format({"min": minutes, "sec": seconds})
 	else:
-		hud_time.text = "time   " + str(0) + ":" + str(0)
-
-
-func controller_hud_timer_step():
-	if minutes_step == 0 && seconds_step == 0:
-		hud_timer_step.text = "time  " + str(0) + ":" + str(0)
-		instance_timer.stop()
-		speed = 360
-		player_data.losers += 1 #LOSER
-		return
-	
-	if ms_step > 9:
-		seconds_step -= 1
-		ms_step = 0
-		
-	if seconds_step == 0 && minutes_step != 0:
-		minutes_step -= 1
-		seconds_step = 59
-		
-	if start_time:
-		hud_timer_step.text = "time  " + "\n" + str(minutes_step) + ":" + str(seconds_step)
-	else:
-		hud_timer_step.text = "time  " + "\n" + str(3) + ":" + str(0)
+		hud_time.text = formatStr.format({"min": "00", "sec": "00"})
 
 
 func controller_hud_return():
 	hud_return.text = "lap  " + str(quantity_return) + "/" + "3"
 	if quantity_return == 3:
-		instance_timer_step.stop() 
 		instance_timer.stop()
-		player_data.minutes_step = minutes_step
-		player_data.seconds_step = seconds_step
 		player_data.minutes = minutes
 		player_data.seconds = seconds
 		speed = 360
@@ -232,9 +200,6 @@ func start_timer():
 		seconds = 0
 		minutes = 0
 		ms = 0
-		seconds_step = 60
-		ms_step = 0
-		minutes_step = 2
 		$music.play()
 
 
@@ -443,7 +408,3 @@ func _on_car_collision():
 
 func _on_timer_finish_line():
 	ms += 1
-
-
-func _on_timer_step():
-	ms_step += 1
