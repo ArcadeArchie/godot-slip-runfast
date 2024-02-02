@@ -4,7 +4,10 @@ using System;
 public class RunwayTimer : Timer
 {
     private Label _timerText;
-    private TimeSpan _startTime;
+    public TimeSpan CurrentTime { get; private set; }
+
+    [Signal]
+    delegate void Ticked(int minutes, int seconds);
     // Declare member variables here. Examples:
     // private int a = 2;
     // private string b = "text";
@@ -18,13 +21,15 @@ public class RunwayTimer : Timer
 
     public void Start()
     {
-        _startTime = TimeSpan.Zero;
+        CurrentTime = TimeSpan.Zero;
         base.Start();
     }
     const string timerFormat = "Total time: {0}";
     public void _onTimerTick()
     {
-        _startTime += TimeSpan.FromSeconds(1);
-        _timerText.Text = string.Format(timerFormat, _startTime.ToString("mm':'ss"));
+        CurrentTime += TimeSpan.FromSeconds(1);
+        _timerText.Text = string.Format(timerFormat, CurrentTime.ToString("mm':'ss"));
+        // AddUserSignal(nameof(Ticked), CurrentTime.Minutes, CurrentTime.Seconds);
+        EmitSignal(nameof(Ticked), CurrentTime.Minutes, CurrentTime.Seconds);
     }
 }

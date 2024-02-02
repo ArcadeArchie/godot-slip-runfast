@@ -68,6 +68,7 @@ var start_time:bool = false
 
 var winner:bool = false
 
+signal has_finished
 
 var road_block_pool
 func _ready():
@@ -187,9 +188,9 @@ func start_timer():
 
 func trigger_winner() -> void:
 	if winner:
-# warning-ignore:return_value_discarded
+		emit_signal("has_finished")
+		# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://src/scenes/screens/winner.tscn")
-	
 	
 func _input(event):
 	if event.is_action_pressed("ui_up"):
