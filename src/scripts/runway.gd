@@ -73,9 +73,20 @@ var start_time = false
 var winner = false
 
 
+var instance_road_blocks
 func _ready():
 	randomize()
-	
+	instance_road_blocks = [
+		road_block.instance(),
+		road_block.instance(),
+		road_block.instance(),
+		road_block.instance(),
+		road_block.instance(),
+		road_block.instance(),
+		road_block.instance(),
+		road_block.instance(),
+		road_block.instance()
+	]
 	hud_time = get_node("../hud_time/time")
 	hud_return = get_node("../hud_return/return")
 	
@@ -171,13 +182,6 @@ func init():
 	
 const formatStr = "Total time: {min}:{sec}"
 func controller_hud_timer():
-	if ms > 9: 
-		seconds += 1
-		ms = 0
-	if seconds > 59: 
-		minutes += 1
-		seconds = 0
-
 	if start_time:
 		hud_time.text = formatStr.format({"min": minutes, "sec": seconds})
 	else:
@@ -234,7 +238,7 @@ func draw_sprites():
 			var current = lines[i]
 			if current.get_sprite():
 				set_state_sprite(current.get_name_sprite())
-				if current_state == State.road_block:
+				if current_state == State.road_block && current.run_sprite(40, 1).get_parent() != self:
 					add_child(current.run_sprite(40, 1))
 	controller_draw_sprites = false
 
@@ -370,10 +374,12 @@ var curve_conditions = [
 	{"start": 2600, "end": 2800, "curve": curves.CURVE_LEFT05},
 	{"start": 2800, "end": 3000, "curve": curves.CURVE_LEFT06},
 ]
-
+var blcoks = 0
 func controller_runway(index):	
-	var instance_road_block = road_block.instance()
-	
+	if blcoks >= instance_road_blocks.size():
+		blcoks = 0		
+	var instance_road_block = instance_road_blocks[blcoks]
+	blcoks += 1	
 	if (index > 200 && index % 140 == 0):
 		lines[index].set_name_sprite(5)
 		lines[index].set_sprite(instance_road_block)
@@ -388,11 +394,16 @@ func controller_runway(index):
 	if index > 3000:
 		lines[index].set_curve(curves.CURVE_LEFT06)
 	
-	
 func _on_car_collision():
 	current_position -= 2000
 	speed = 0
 
 
 func _on_timer_finish_line():
-	ms += 1
+	ms += 1	
+	if ms > 9: 
+		seconds += 1
+		ms = 0
+	if seconds > 59: 
+		minutes += 1
+		seconds = 0
