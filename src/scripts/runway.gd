@@ -54,10 +54,6 @@ var play_curve = 0
 
 var skyline
 
-var seconds = 0
-var minutes = 0
-var ms = 0
-
 var hud_time
 var hud_return
 var timer
@@ -73,10 +69,10 @@ var start_time = false
 var winner = false
 
 
-var instance_road_blocks
+var road_block_pool
 func _ready():
 	randomize()
-	instance_road_blocks = [
+	road_block_pool = [
 		road_block.instance(),
 		road_block.instance(),
 		road_block.instance(),
@@ -87,11 +83,8 @@ func _ready():
 		road_block.instance(),
 		road_block.instance()
 	]
-	hud_time = get_node("../hud_time/time")
-	hud_return = get_node("../hud_return/return")
 	
-	instance_timer = get_node("../timer")
-	instance_timer.start()
+	hud_return = get_node("../hud_return/return")
 		
 	$car.position = Vector2(960, 870)
 	skyline = get_node("../skyline/Sprite")
@@ -102,7 +95,7 @@ func _ready():
 
 func _process(_delta):
 	trigger_winner()
-	controller_hud_timer()
+	
 	controller_hud_return()
 	start_timer()	
 	
@@ -178,22 +171,10 @@ func init():
 		controller_runway(index)
 	lines_length = lines.size()
 	set_process(true)
-	
-	
-const formatStr = "Total time: {min}:{sec}"
-func controller_hud_timer():
-	if start_time:
-		hud_time.text = formatStr.format({"min": minutes, "sec": seconds})
-	else:
-		hud_time.text = formatStr.format({"min": "00", "sec": "00"})
-
 
 func controller_hud_return():
 	hud_return.text = "lap  " + str(quantity_return) + "/" + "3"
 	if quantity_return == 3:
-		instance_timer.stop()
-		player_data.minutes = minutes
-		player_data.seconds = seconds
 		speed = 360
 		winner = true
 	
@@ -201,14 +182,12 @@ func controller_hud_return():
 func start_timer():
 	if current_position > RUNWAY_LENGTH && not start_time:
 		start_time = true
-		seconds = 0
-		minutes = 0
-		ms = 0
 		$music.play()
 
 
 func trigger_winner() -> void:
 	if winner:
+# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://src/scenes/screens/winner.tscn")
 	
 	
@@ -376,9 +355,9 @@ var curve_conditions = [
 ]
 var blcoks = 0
 func controller_runway(index):	
-	if blcoks >= instance_road_blocks.size():
+	if blcoks >= road_block_pool.size():
 		blcoks = 0		
-	var instance_road_block = instance_road_blocks[blcoks]
+	var instance_road_block = road_block_pool[blcoks]
 	blcoks += 1	
 	if (index > 200 && index % 140 == 0):
 		lines[index].set_name_sprite(5)
@@ -397,13 +376,3 @@ func controller_runway(index):
 func _on_car_collision():
 	current_position -= 2000
 	speed = 0
-
-
-func _on_timer_finish_line():
-	ms += 1	
-	if ms > 9: 
-		seconds += 1
-		ms = 0
-	if seconds > 59: 
-		minutes += 1
-		seconds = 0

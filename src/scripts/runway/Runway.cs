@@ -1,9 +1,9 @@
 using Godot;
 using System;
 
-public class Runway : Node2D
+public class Runway : Node
 {
-    private RunwayTimer _timer;
+    private Timer _timer;
     // Declare member variables here. Examples:
     // private int a = 2;
     // private string b = "text";
@@ -11,7 +11,8 @@ public class Runway : Node2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        _timer = GetNode<RunwayTimer>("./RunTimer/Timer");
+        _timer = GetNode<Timer>("HUD_TotalTime");
+        _timer.Start();
     }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
