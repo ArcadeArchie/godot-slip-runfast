@@ -64,9 +64,9 @@ var instance_timer
 
 var instance_timer_step
 
-var start_time = false
+var start_time:bool = false
 
-var winner = false
+var winner:bool = false
 
 
 var road_block_pool
@@ -121,7 +121,7 @@ func _draw():
 	
 	for n in range(start_point, start_point + 300):
 	
-		var current_line = lines[n%lines_length]
+		var current_line = lines[n % lines_length]
 	
 		current_line.screen_coordinates(($car.position.x - 960) - accumulate_curve, cam_horizontal, (start_point * SEGMENT_LENGTH) - (lines_length * SEGMENT_LENGTH if n >= lines_length else 0), CAMERA_DEPTH, RUNWAY_WIDTH, WIDTH, HEIGHT)
 		
@@ -225,7 +225,8 @@ func draw_sprites():
 func update_position_sprites(start_point):
 	var aux = start_point + 300
 	while aux > start_point:
-		var current = lines[aux%lines_length]
+		var current = lines[aux % lines_length]
+
 		if current.get_sprite():
 			set_state_sprite(current.get_name_sprite())
 
@@ -243,6 +244,7 @@ func controller_position():
 	while current_position >= (lines_length * SEGMENT_LENGTH):
 		quantity_return += 1
 		current_position -= (lines_length * SEGMENT_LENGTH)
+		
 	while current_position < 0:
 		current_position += (lines_length * SEGMENT_LENGTH)
 
@@ -253,26 +255,24 @@ func controller_inputs():
 		
 		if Input.is_action_pressed("ui_right"):
 			
-			if accumulate_curve > 100000 && speed > 500:
+			$car.position.x += 25
+			if [accumulate_curve,speed] > [100000,500]:
 				$car/body/AnimatedSprite.play("slip_right")
 				$car/body/AnimationCollision.play("animation_slip_right")
-				$car.position.x += 25
 			else:
 				$car/body/AnimatedSprite.play("curve_right")
 				$car/body/AnimationCollision.play("right")
-				$car.position.x += 25
 				play_curve += 1
 			
 		elif Input.is_action_pressed("ui_left"):
 			
-			if accumulate_curve < -100000 && speed > 500:
+			$car.position.x -= 25
+			if [accumulate_curve,speed] < [-100000,500]:
 				$car/body/AnimatedSprite.play("slip_left")
 				$car/body/AnimationCollision.play("animation_slip_left")
-				$car.position.x -= 25
 			else:
 				$car/body/AnimatedSprite.play("curve_left")
 				$car/body/AnimationCollision.play("left")
-				$car.position.x -= 25
 				play_curve -= 1
 		else:
 			$car/body/AnimatedSprite.play("idle")
@@ -353,12 +353,12 @@ var curve_conditions = [
 	{"start": 2600, "end": 2800, "curve": curves.CURVE_LEFT05},
 	{"start": 2800, "end": 3000, "curve": curves.CURVE_LEFT06},
 ]
-var blcoks = 0
+var blocks = 0
 func controller_runway(index):	
-	if blcoks >= road_block_pool.size():
-		blcoks = 0		
-	var instance_road_block = road_block_pool[blcoks]
-	blcoks += 1	
+	if blocks >= road_block_pool.size():
+		blocks = 0		
+	var instance_road_block = road_block_pool[blocks]
+	blocks += 1	
 	if (index > 200 && index % 140 == 0):
 		lines[index].set_name_sprite(5)
 		lines[index].set_sprite(instance_road_block)
