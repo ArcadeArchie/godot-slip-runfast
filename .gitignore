@@ -16,3 +16,4 @@ mono_crash.*.json
 
 #Build export folder
 exports/
+.vscode/settings.json

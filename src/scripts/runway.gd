@@ -3,8 +3,10 @@ extends Node2D
 onready var road_block = preload("res://src/scenes/runway/runway_objects/road_block.tscn")
 onready var line = preload("res://src/scripts/Line.gd")
 
-var WIDTH = 1920
-var HEIGHT = 1080
+
+
+var WIDTH = OS.get_screen_size().x
+var HEIGHT = OS.get_screen_size().y
 
 
 
@@ -75,18 +77,12 @@ signal has_finished
 var road_block_pool
 func _ready():
 	randomize()
-	road_block_pool = [
-		road_block.instance(),
-		road_block.instance(),
-		road_block.instance(),
-		road_block.instance(),
-		road_block.instance(),
-		road_block.instance(),
-		road_block.instance(),
-		road_block.instance(),
-		road_block.instance()
-	]
-	
+	road_block_pool = []
+	for _i in range(9):
+		road_block_pool.append(road_block.instance())
+		_i += 1
+
+		
 	hud_return = get_node("../hud_return/return")
 		
 	$car.position = Vector2(960, 870)

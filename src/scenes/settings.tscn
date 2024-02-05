@@ -1,0 +1,87 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://src/assets/fonts/wide.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://src/assets/arts/powerups/grabber.png" type="Texture" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 91
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 45
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxLine" id=2]
+content_margin_top = 14.0
+content_margin_bottom = 14.0
+color = Color( 0.85098, 0.882353, 1, 1 )
+grow_begin = -6.0
+thickness = 0
+
+[sub_resource type="DynamicFont" id=4]
+size = 45
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+margin_left = 699.0
+margin_top = 53.0
+margin_right = 1221.0
+margin_bottom = 162.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "Settings"
+align = 1
+valign = 1
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 882.0
+margin_top = 341.0
+margin_right = 1037.0
+margin_bottom = 387.0
+custom_fonts/font = SubResource( 3 )
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="Label2"]
+margin_left = -454.0
+margin_top = 44.0
+margin_right = 610.0
+margin_bottom = 140.0
+custom_icons/grabber = ExtResource( 2 )
+custom_styles/slider = SubResource( 2 )
+step = 0.01
+value = 100.0
+
+[node name="Label3" type="Label" parent="."]
+margin_left = 760.0
+margin_top = 699.0
+margin_right = 1155.0
+margin_bottom = 745.0
+custom_fonts/font = SubResource( 3 )
+text = "Sound Effects"
+
+[node name="SFXSlider" type="HSlider" parent="Label3"]
+margin_left = -331.0
+margin_top = 46.0
+margin_right = 733.0
+margin_bottom = 142.0
+custom_icons/grabber = ExtResource( 2 )
+custom_styles/slider = SubResource( 2 )
+step = 0.01
+value = 100.0
+
+[node name="Button" type="Button" parent="."]
+margin_left = 57.0
+margin_top = 82.0
+margin_right = 244.0
+margin_bottom = 134.0
+custom_fonts/font = SubResource( 4 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/focus = SubResource( 5 )
+custom_styles/disabled = SubResource( 5 )
+custom_styles/normal = SubResource( 5 )
+text = "< Back"

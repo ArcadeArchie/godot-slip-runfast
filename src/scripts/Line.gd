@@ -160,7 +160,7 @@ class Line:
 		self._screen_y = ((1 - self._scale * (self._world_y - cam_y)) * height / 2)
 		self._screen_w = (self._scale * road_width * (width / 2))
 	
-	
+
 	func run_sprite(width, height):
 		var offsetX = self._screen_x + self._scale * self._sprite_x * 1920 / 2
 		var offsetY = self._screen_y + 8

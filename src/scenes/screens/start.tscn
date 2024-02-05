@@ -44,9 +44,6 @@ font_data = ExtResource( 22 )
 
 [node name="start" type="Control"]
 script = ExtResource( 19 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 4, 4 )
@@ -58,6 +55,7 @@ centered = false
 [node name="music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 20 )
 volume_db = -10.0
+bus = "Music"
 
 [node name="start_game" type="Button" parent="."]
 pause_mode = 2
@@ -69,6 +67,7 @@ margin_left = 823.471
 margin_top = 460.0
 margin_right = 1083.47
 margin_bottom = 607.0
+rect_pivot_offset = Vector2( 548.529, 669 )
 custom_colors/font_color = Color( 0.866667, 0.556863, 0.556863, 1 )
 custom_colors/font_color_hover = Color( 0.917647, 0.568627, 0.192157, 1 )
 custom_colors/font_color_pressed = Color( 0.866667, 0.556863, 0.556863, 1 )
@@ -76,21 +75,34 @@ custom_fonts/font = SubResource( 2 )
 text = "Start"
 flat = true
 script = ExtResource( 21 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="start_game" type="Button" parent="start_game"]
+pause_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -196.47
+margin_top = 82.5
+margin_right = 196.53
+margin_bottom = 229.5
+rect_pivot_offset = Vector2( 548.529, 669 )
+custom_colors/font_color = Color( 0.866667, 0.556863, 0.556863, 1 )
+custom_colors/font_color_hover = Color( 0.917647, 0.568627, 0.192157, 1 )
+custom_colors/font_color_pressed = Color( 0.866667, 0.556863, 0.556863, 1 )
+custom_fonts/font = SubResource( 2 )
+text = "Settings"
+flat = true
+script = ExtResource( 21 )
 
 [node name="title" type="Label" parent="."]
-margin_left = 420.359
-margin_top = 197.816
-margin_right = 1517.36
-margin_bottom = 455.816
+margin_left = 335.0
+margin_top = 219.0
+margin_right = 1606.0
+margin_bottom = 477.0
 custom_colors/font_color = Color( 0.917647, 0.568627, 0.192157, 1 )
 custom_fonts/font = SubResource( 3 )
-text = "Slip Runfast"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+text = "Need for Beer"
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.6
