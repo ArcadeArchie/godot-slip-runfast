@@ -93,7 +93,6 @@ custom_colors/font_color_pressed = Color( 0.866667, 0.556863, 0.556863, 1 )
 custom_fonts/font = SubResource( 2 )
 text = "Settings"
 flat = true
-script = ExtResource( 21 )
 
 [node name="title" type="Label" parent="."]
 margin_left = 335.0
@@ -104,9 +103,4 @@ custom_colors/font_color = Color( 0.917647, 0.568627, 0.192157, 1 )
 custom_fonts/font = SubResource( 3 )
 text = "Need for Beer"
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.6
-autostart = true
-
 [connection signal="button_up" from="start_game" to="start_game" method="_on_start_game_button_up"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_start_game"]
