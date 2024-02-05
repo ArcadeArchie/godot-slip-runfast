@@ -6,6 +6,8 @@ onready var line = preload("res://src/scripts/Line.gd")
 var WIDTH = 1920
 var HEIGHT = 1080
 
+
+
 export var RUNWAY_LENGTH = 2800
 export var RUNWAY_WIDTH = 2500
 export var SEGMENT_LENGTH = 400
@@ -124,8 +126,19 @@ func _draw():
 	
 		var current_line = lines[n % lines_length]
 	
-		current_line.screen_coordinates(($car.position.x - 960) - accumulate_curve, cam_horizontal, (start_point * SEGMENT_LENGTH) - (lines_length * SEGMENT_LENGTH if n >= lines_length else 0), CAMERA_DEPTH, RUNWAY_WIDTH, WIDTH, HEIGHT)
-		
+		var car_position_x = $car.position.x - 960
+		var line_offset = start_point * SEGMENT_LENGTH - (lines_length * SEGMENT_LENGTH if n >= lines_length else 0)
+
+		current_line.screen_coordinates(
+			car_position_x - accumulate_curve,
+			cam_horizontal,
+			line_offset,
+			CAMERA_DEPTH,
+			RUNWAY_WIDTH,
+			WIDTH,
+			HEIGHT
+		)
+
 		var previous_line = lines[(n - 1) % lines_length]
 	
 		if $car.position.x < 160:
@@ -200,9 +213,14 @@ func _input(event):
 
 
 func render_polygon(color, x1, y1, w1, x2, y2, w2):
-	var point = [Vector2(int(x1 - w1), int(y1)), Vector2(int(x2 - w2), int(y2)),
-	Vector2(int(x2 + w2), int(y2)), Vector2(int(x1 + w1), int(y1))]
-	draw_primitive(PoolVector2Array(point), PoolColorArray([color, color, color, color, color]), PoolVector2Array([]))
+	var point = [
+		Vector2(int(x1 - w1), int(y1)),
+		Vector2(int(x2 - w2), int(y2)),
+		Vector2(int(x2 + w2), int(y2)),
+		Vector2(int(x1 + w1), int(y1))
+	]
+	var colors = PoolColorArray([color, color, color, color, color])
+	draw_primitive(PoolVector2Array(point), colors, PoolVector2Array([]))
 
 
 func controller_skyline(start_point):
@@ -218,10 +236,10 @@ func draw_sprites():
 			var current = lines[i]
 			if current.get_sprite():
 				set_state_sprite(current.get_name_sprite())
-				if current_state == State.road_block && current.run_sprite(40, 1).get_parent() != self:
-					add_child(current.run_sprite(40, 1))
+				var sprite = current.run_sprite(40, 1)
+				if current_state == State.road_block && sprite.get_parent() != self:
+					add_child(sprite)
 	controller_draw_sprites = false
-
 
 func update_position_sprites(start_point):
 	var aux = start_point + 300
@@ -231,9 +249,8 @@ func update_position_sprites(start_point):
 		if current.get_sprite():
 			set_state_sprite(current.get_name_sprite())
 
-			match current_state:
-				State.road_block:
-					current.run_sprite(40, 1)
+			if current_state == State.road_block:
+				current.run_sprite(40, 1)
 		aux -= 1
 
 

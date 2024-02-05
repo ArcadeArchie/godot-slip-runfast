@@ -162,7 +162,6 @@ class Line:
 	
 	
 	func run_sprite(width, height):
-		
 		var offsetX = self._screen_x + self._scale * self._sprite_x * 1920 / 2
 		var offsetY = self._screen_y + 8
 		var offsetW = width * self._screen_w / 266
@@ -173,7 +172,8 @@ class Line:
 		
 		var clipH = offsetY + offsetH - self._clip
 		
-		if clipH < 0: clipH = 0
+		if clipH < 0:
+			clipH = 0
 		
 		self._sprite.position = Vector2(offsetX, offsetY)
 		self._sprite.scale = Vector2(offsetW / width, offsetH / height)
