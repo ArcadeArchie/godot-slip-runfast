@@ -93,10 +93,21 @@ func _ready():
 	
 
 func _process(_delta):
-	trigger_winner()
 	
-	controller_hud_return()
-	start_timer()	
+	if winner:
+		emit_signal("has_finished")
+		# warning-ignore:return_value_discarded
+		get_tree().change_scene("res://src/scenes/screens/winner.tscn")
+	
+	
+	hud_return.text = "lap  " + str(quantity_return) + "/" + "3"
+	if quantity_return == 3:
+		speed = 360
+		winner = true
+	
+	if current_position > RUNWAY_LENGTH && not start_time:
+		start_time = true
+		$music.play()
 	
 	var speed_percent = speed / 500
 	
@@ -109,6 +120,14 @@ func _process(_delta):
 	
 func _draw():
 	
+	if $car.position.x < 160:
+		$car/body/AnimatedSprite.play("curve_right")
+		speed = 250
+		
+	elif $car.position.x > 1760:
+		$car/body/AnimatedSprite.play("curve_left")
+		speed = 250
+		
 	var start_point = (current_position / SEGMENT_LENGTH)
 	var cam_horizontal = (1800 + lines[start_point].get_world_y())
 	var max_y = HEIGHT
@@ -136,15 +155,7 @@ func _draw():
 		)
 
 		var previous_line = lines[(n - 1) % lines_length]
-	
-		if $car.position.x < 160:
-			$car/body/AnimatedSprite.play("curve_right")
-			speed = 250
-		
-		elif $car.position.x > 1760:
-			$car/body/AnimatedSprite.play("curve_left")
-			speed = 250
-			
+
 		accumulate_curve += distance_x
 		distance_x += current_line.get_curve()
 		
@@ -181,25 +192,6 @@ func init():
 		controller_runway(index)
 	lines_length = lines.size()
 	set_process(true)
-
-func controller_hud_return():
-	hud_return.text = "lap  " + str(quantity_return) + "/" + "3"
-	if quantity_return == 3:
-		speed = 360
-		winner = true
-	
-		
-func start_timer():
-	if current_position > RUNWAY_LENGTH && not start_time:
-		start_time = true
-		$music.play()
-
-
-func trigger_winner() -> void:
-	if winner:
-		emit_signal("has_finished")
-		# warning-ignore:return_value_discarded
-		get_tree().change_scene("res://src/scenes/screens/winner.tscn")
 	
 func _input(event):
 	if event.is_action_pressed("ui_up"):
