@@ -5,7 +5,8 @@
 [node name="skyline" type="Node2D"]
 
 [node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 2, 1.9 )
+position = Vector2( 1809.62, 78.1429 )
+scale = Vector2( 5.29023, 5.02571 )
 texture = ExtResource( 1 )
 centered = false
 offset = Vector2( -550, -25 )
