@@ -1,43 +1,40 @@
 class Line:
-	
-	var _border; var _runway; var _gramme; var _divid_line
-	
-	var _scale; var _curve; var _sprite_x
-	
-	var _world_x; var _world_y; var _world_z
-	
-	var _screen_x; var _screen_y; var _screen_w
-	
-	var _clip; var _sprite
-	
+	var _border
+	var _runway
+	var _gramme
+	var _divid_line
+	var _scale
+	var _curve
+	var _sprite_x
+	var _world_x
+	var _world_y
+	var _world_z
+	var _screen_x
+	var _screen_y
+	var _screen_w
+	var _clip
+	var _sprite
 	var _name_sprite
 	
 	func _init():
-		self._world_x = 0
-		self._world_y = 0
-		self._world_z = 0
-		self._screen_x = 0
-		self._screen_y = 0
-		self._screen_w = 0
-		self._clip = 0
-		self._scale = 0
-		self._curve = 0
-		self._sprite = 0
-		self._sprite_x = 0
+		_world_x = 0
+		_world_y = 0
+		_world_z = 0
+		_screen_x = 0
+		_screen_y = 0
+		_screen_w = 0
+		_clip = 0
+		_scale = 0
+		_curve = 0
+		_sprite = 0
+		_sprite_x = 0
 		
-	
-	func get_world_x():
-		return self._world_x
-		
+
 		
 	func get_world_y():
 		return self._world_y
 	
-	
-	func get_world_z():
-		return self._world_z	
-		
-		
+
 	func get_screen_x():
 		return self._screen_x
 		
@@ -48,23 +45,10 @@ class Line:
 		
 	func get_screen_w():
 		return self._screen_w
-		
-		
-	func get_scale():
-		return self._scale
-		
-		
+	
 	func get_curve():
 		return self._curve
 		
-		
-	func get_sprite_x():
-		return self._sprite_x
-		
-		
-	func get_clip():
-		return self._clip
-	
 	
 	func get_sprite():
 		return self._sprite	
@@ -74,30 +58,6 @@ class Line:
 		self._world_z = value
 	
 	
-	func set_world_x(value):
-		self._world_x = value
-		
-		
-	func set_world_y(value):
-		self._world_y = value
-		
-		
-	func set_screen_x(value):
-		self._screen_x = value
-		
-		
-	func set_screen_y(value):
-		self._screen_y = value
-		
-		
-	func set_screen_w(value):
-		self._screen_w = value
-		
-		
-	func set_scale(value):
-		self._scale = value
-		
-		
 	func set_curve(value):
 		self._curve = value
 		
