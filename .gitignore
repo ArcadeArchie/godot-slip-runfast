@@ -17,3 +17,6 @@ mono_crash.*.json
 #Build export folder
 exports/
 .vscode/settings.json
+
+#Android export files
+[Aa]ndroid/
