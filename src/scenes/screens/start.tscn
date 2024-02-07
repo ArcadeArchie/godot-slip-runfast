@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/assets/fonts/condensed.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/assets/fonts/Quicksilver Italic.ttf" type="DynamicFontData" id=2]
@@ -25,6 +25,12 @@ outline_color = Color( 0.141176, 0.141176, 0.141176, 1 )
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 60
+outline_size = 10
+outline_color = Color( 0.137255, 0.137255, 0.137255, 1 )
+font_data = ExtResource( 1 )
 
 [node name="start" type="Control"]
 script = ExtResource( 19 )
@@ -78,5 +84,16 @@ margin_right = 1527.0
 margin_bottom = 376.0
 custom_fonts/font = SubResource( 4 )
 text = "Need for Beer"
+
+[node name="Label" type="Label" parent="."]
+margin_left = 1387.0
+margin_top = 422.0
+margin_right = 1811.0
+margin_bottom = 504.0
+rect_rotation = -35.0
+custom_fonts/font = SubResource( 5 )
+text = "Now with drugs!"
+align = 1
+valign = 1
 
 [connection signal="button_up" from="start_game" to="start_game" method="_on_start_game_button_up"]
