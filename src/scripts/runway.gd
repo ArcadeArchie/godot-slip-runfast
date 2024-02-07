@@ -291,6 +291,7 @@ func controller_inputs():
 		$car/body/AnimationCollision.play("idle")
 		speed -= 5
 	
+	
 	speed = clamp(speed, 0, max_speed)
 	current_position += speed
 	
