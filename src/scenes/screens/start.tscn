@@ -85,7 +85,7 @@ margin_bottom = 376.0
 custom_fonts/font = SubResource( 4 )
 text = "Need for Beer"
 
-[node name="Label" type="Label" parent="."]
+[node name="splash_text" type="Label" parent="."]
 margin_left = 1387.0
 margin_top = 422.0
 margin_right = 1811.0
@@ -97,3 +97,4 @@ align = 1
 valign = 1
 
 [connection signal="button_up" from="start_game" to="start_game" method="_on_start_game_button_up"]
+[connection signal="pressed" from="start_game/start_game" to="." method="_on_settings_pressed"]

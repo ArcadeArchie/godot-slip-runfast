@@ -8,16 +8,16 @@
 size = 91
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=3]
-size = 45
-font_data = ExtResource( 1 )
-
 [sub_resource type="StyleBoxLine" id=2]
 content_margin_top = 14.0
 content_margin_bottom = 14.0
 color = Color( 0.85098, 0.882353, 1, 1 )
 grow_begin = -6.0
 thickness = 0
+
+[sub_resource type="DynamicFont" id=3]
+size = 45
+font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 45
@@ -39,6 +39,16 @@ text = "Settings"
 align = 1
 valign = 1
 
+[node name="MusicSlider" type="HSlider" parent="."]
+margin_left = 428.0
+margin_top = 385.0
+margin_right = 1492.0
+margin_bottom = 481.0
+custom_icons/grabber = ExtResource( 2 )
+custom_styles/slider = SubResource( 2 )
+step = 0.01
+value = 100.0
+
 [node name="Label2" type="Label" parent="."]
 margin_left = 882.0
 margin_top = 341.0
@@ -47,11 +57,11 @@ margin_bottom = 387.0
 custom_fonts/font = SubResource( 3 )
 text = "Music"
 
-[node name="MusicSlider" type="HSlider" parent="Label2"]
-margin_left = -454.0
-margin_top = 44.0
-margin_right = 610.0
-margin_bottom = 140.0
+[node name="SFXSlider" type="HSlider" parent="."]
+margin_left = 429.0
+margin_top = 745.0
+margin_right = 1493.0
+margin_bottom = 841.0
 custom_icons/grabber = ExtResource( 2 )
 custom_styles/slider = SubResource( 2 )
 step = 0.01
@@ -64,16 +74,6 @@ margin_right = 1155.0
 margin_bottom = 745.0
 custom_fonts/font = SubResource( 3 )
 text = "Sound Effects"
-
-[node name="SFXSlider" type="HSlider" parent="Label3"]
-margin_left = -331.0
-margin_top = 46.0
-margin_right = 733.0
-margin_bottom = 142.0
-custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 2 )
-step = 0.01
-value = 100.0
 
 [node name="Button" type="Button" parent="."]
 margin_left = 57.0

@@ -1,8 +1,8 @@
 extends Node2D
 
 
-onready var music_slider = $"%MusicSlider"
-onready var sfx_slider = $"%SFXSlider"
+onready var music_slider = $"MusicSlider"
+onready var sfx_slider = $"SFXSlider"
 
 
 onready var music_bus = AudioServer.get_bus_index("Music")
