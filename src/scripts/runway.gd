@@ -1,49 +1,48 @@
+# FILEPATH: /C:/Users/L13/Documents/GitHub/godot-slip-runfast/src/scripts/runway.gd
+
 extends Node2D
 
+# Preload resources
 onready var road_block = preload("res://src/scenes/runway/runway_objects/road_block.tscn")
 onready var line = preload("res://src/scripts/Line.gd")
 
-
-
+# Constants
 var WIDTH = OS.get_screen_size().x
 var HEIGHT = OS.get_screen_size().y
 
-
-
+# Exported variables
 export var RUNWAY_LENGTH = 2800
 export var RUNWAY_WIDTH = 2500
 export var SEGMENT_LENGTH = 400
 export var CAMERA_DEPTH = 0.84
 
-export var BORDER:Color
-export var RUNWAY:Color
-export var DIVID_LINE:Color
-export var GRAMME:Color
-export var STRIPED_RUNWAY:Color
-export var STRIPED_BORDER:Color
-export var STRIPED_DIVID_LINE:Color
-export var STRIPED_GRAMME:Color
+export var BORDER: Color
+export var RUNWAY: Color
+export var DIVID_LINE: Color
+export var GRAMME: Color
+export var STRIPED_RUNWAY: Color
+export var STRIPED_BORDER: Color
+export var STRIPED_DIVID_LINE: Color
+export var STRIPED_GRAMME: Color
 
-var NEW_BORDER:Color
-var NEW_RUNWAY:Color
-var NEW_DIVID_LINE:Color
-var NEW_GRAMME:Color
+# Variables
+var NEW_BORDER: Color
+var NEW_RUNWAY: Color
+var NEW_DIVID_LINE: Color
+var NEW_GRAMME: Color
 
 var lines = []
-
 var current_position = 0
 var lines_length
 
 var camera_x = 0
-
 var up_is_pressed = false
-
 var controller_draw_sprites = true
 
 var speed = 0
 var max_speed = 720
+var max_speed_meth = 1080
 var centrifugal = 0.00009
-
 var accumulate_curve = 0
 var distance_x = 0
 
@@ -55,92 +54,87 @@ enum State {
 var current_state = State.tree_01
 
 var play_curve = 0
-
 var skyline
 
 var hud_time
 var hud_return
 var timer
-
 var quantity_return = 0
-
 var instance_timer
-
 var instance_timer_step
-
-var start_time:bool = false
-
-var winner:bool = false
+var start_time: bool = false
+var winner: bool = false
 
 signal has_finished
 
 var road_block_pool
+
 func _ready():
+	# Initialize road block pool
 	randomize()
 	road_block_pool = []
 	for _i in range(9):
 		road_block_pool.append(road_block.instance())
 		_i += 1
-
-		
+	
+	# Get references to nodes
 	hud_return = get_node("../hud_return/return")
-		
 	$car.position = Vector2(960, 870)
 	skyline = get_node("../skyline/Sprite")
 	
 	set_process_input(true)
 	init()
-	
 
+# Process function called every frame
 func _process(_delta):
-	
+	# Check if the player has won
 	if winner:
 		emit_signal("has_finished")
-		# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://src/scenes/screens/winner.tscn")
 	
-	
+	# Update HUD
 	hud_return.text = "lap  " + str(quantity_return) + "/" + "3"
+	
+	# Check if the player has completed 3 laps
 	if quantity_return == 3:
 		speed = 360
 		winner = true
 	
+	# Start the timer when the player reaches the end of the runway
 	if current_position > RUNWAY_LENGTH && not start_time:
 		start_time = true
 		$music.play()
 	
+	# Calculate speed percentage
 	var speed_percent = speed / 500
 	
+	# Update player inputs, curve, and position
 	controller_inputs()
 	controller_curve(speed_percent)
 	controller_position()
 	
 	update()
-	
-	
+
 func _draw():
-	
+	# Check if the player is in a curve and update the car animation
 	if $car.position.x < 160:
 		$car/body/AnimatedSprite.play("curve_right")
 		speed = 250
-		
 	elif $car.position.x > 1760:
 		$car/body/AnimatedSprite.play("curve_left")
 		speed = 250
-		
+	
+	# Calculate the start point and camera position
 	var start_point = (current_position / SEGMENT_LENGTH)
 	var cam_horizontal = (1800 + lines[start_point].get_world_y())
 	var max_y = HEIGHT
 	
-	accumulate_curve  = 0
-	distance_x = 0
-	
+	# Update the skyline position based on speed
 	controller_skyline(start_point)
 	
+	# Iterate over the lines and render the polygons
 	for n in range(start_point, start_point + 300):
-	
 		var current_line = lines[n % lines_length]
-	
 		var car_position_x = $car.position.x - 960
 		var line_offset = start_point * SEGMENT_LENGTH - (lines_length * SEGMENT_LENGTH if n >= lines_length else 0)
 
@@ -179,27 +173,26 @@ func _draw():
 	
 	draw_sprites()
 	update_position_sprites(start_point)
-	
 
+# Initialize the runway lines
 func init():
 	for index in range(RUNWAY_LENGTH):
 		var struture_line = line.Line.new()
-		
 		lines.push_back(struture_line)
 		add_colors(index)
 		lines[index].set_world_z(index * SEGMENT_LENGTH)
-		
 		controller_runway(index)
 	lines_length = lines.size()
 	set_process(true)
-	
+
+# Handle player input events
 func _input(event):
 	if event.is_action_pressed("ui_up"):
 		up_is_pressed = true
 	elif event.is_action_released("ui_up"):
 		up_is_pressed = false
 
-
+# Render a polygon with the given color and coordinates
 func render_polygon(color, x1, y1, w1, x2, y2, w2):
 	var point = [
 		Vector2(int(x1 - w1), int(y1)),
@@ -210,14 +203,14 @@ func render_polygon(color, x1, y1, w1, x2, y2, w2):
 	var colors = PoolColorArray([color, color, color, color, color])
 	draw_primitive(PoolVector2Array(point), colors, PoolVector2Array([]))
 
-
+# Update the skyline position based on speed
 func controller_skyline(start_point):
 	if speed > 500:
 		skyline.position -= Vector2(lines[start_point].get_curve() * 1, 0)
 	elif speed < -500:
 		skyline.position += Vector2(lines[start_point].get_curve() * 1, 0)
-	
 
+# Draw sprites on the runway
 func draw_sprites():
 	if controller_draw_sprites:
 		for i in range(lines_length):
@@ -229,6 +222,7 @@ func draw_sprites():
 					add_child(sprite)
 	controller_draw_sprites = false
 
+# Update the positions of the sprites on the runway
 func update_position_sprites(start_point):
 	var aux = start_point + 300
 	while aux > start_point:
@@ -241,11 +235,10 @@ func update_position_sprites(start_point):
 				current.run_sprite(40, 1)
 		aux -= 1
 
-
 func set_state_sprite(state):
 	current_state = state
 
-
+# Update the player position on the runway
 func controller_position():
 	while current_position >= (lines_length * SEGMENT_LENGTH):
 		quantity_return += 1
@@ -256,24 +249,19 @@ func controller_position():
 
 
 func controller_inputs():
-	
 	if up_is_pressed:
-		
 		if Input.is_action_pressed("ui_right"):
-			
 			$car.position.x += 25
-			if [accumulate_curve,speed] > [100000,500]:
+			if [accumulate_curve, speed] > [100000, 500]:
 				$car/body/AnimatedSprite.play("slip_right")
 				$car/body/AnimationCollision.play("animation_slip_right")
 			else:
 				$car/body/AnimatedSprite.play("curve_right")
 				$car/body/AnimationCollision.play("right")
 				play_curve += 1
-			
 		elif Input.is_action_pressed("ui_left"):
-			
 			$car.position.x -= 25
-			if [accumulate_curve,speed] < [-100000,500]:
+			if [accumulate_curve, speed] < [-100000, 500]:
 				$car/body/AnimatedSprite.play("slip_left")
 				$car/body/AnimationCollision.play("animation_slip_left")
 			else:
@@ -283,31 +271,25 @@ func controller_inputs():
 		else:
 			$car/body/AnimatedSprite.play("idle")
 			$car/body/AnimationCollision.play("idle")
-
 		speed += 5
-		
 	else:
 		$car/body/AnimatedSprite.play("idle")
 		$car/body/AnimationCollision.play("idle")
 		speed -= 5
 	
-	
 	speed = clamp(speed, 0, max_speed)
 	current_position += speed
-	
 
+# Update the player position based on the curve
 func controller_curve(speed_percent):
 	if accumulate_curve > 10000:
 		$car.position.x -= (speed_percent * accumulate_curve * centrifugal)
-		
 	if accumulate_curve < -10000:
 		$car.position.x -= (speed_percent * (accumulate_curve / 2) * centrifugal)
-		
 	camera_x = clamp(camera_x, -4000, 4000)
-	
 	$car.position.x = clamp($car.position.x, 60, WIDTH - 60)
 
-
+# Add colors to the runway lines
 func add_colors(index):
 	if (index / 3) % 2:
 		lines[index].set_color_border(BORDER)
@@ -326,8 +308,8 @@ func add_colors(index):
 	if index > 10 && index < 15:
 		lines[index].set_color_runway(Color(204, 204, 204))
 		lines[index].set_color_divid_line(Color(204, 204, 204))
-	
 
+# Define the curves for the runway
 var curves = {
 	CURVE_RIGHT01 = 2.5,
 	CURVE_RIGHT02 = 3.5,
@@ -343,6 +325,8 @@ var curves = {
 	CURVE_LEFT05 = 0.0,
 	CURVE_LEFT06 = -7.5
 }
+
+# Define the curve conditions for the runway
 var curve_conditions = [
 	{"start": 150, "end": 250, "curve": curves.CURVE_RIGHT02},
 	{"start": 250, "end": 350, "curve": curves.CURVE_RIGHT03},
@@ -360,7 +344,10 @@ var curve_conditions = [
 	{"start": 2600, "end": 2800, "curve": curves.CURVE_LEFT05},
 	{"start": 2800, "end": 3000, "curve": curves.CURVE_LEFT06},
 ]
+
 var blocks = 0
+
+# Add road blocks to the runway
 func controller_runway(index):	
 	if blocks >= road_block_pool.size():
 		blocks = 0		
@@ -370,12 +357,6 @@ func controller_runway(index):
 		lines[index].set_name_sprite(5)
 		lines[index].set_sprite(instance_road_block)
 		lines[index].set_sprite_x(rand_range(-2, 2))
-	
-	# Curve on right
-	for condition in curve_conditions:
-		if index > condition["start"] && index < condition["end"]:
-			lines[index].set_curve(condition["curve"])
-	
 	# Additional condition for the last case
 	if index > 3000:
 		lines[index].set_curve(curves.CURVE_LEFT06)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/scripts/runway.gd" type="Script" id=1]
 [ext_resource path="res://src/scenes/car/car.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://src/assets/audio/music/BRIDGE (mmaze2).wav" type="AudioStream" id=8]
 [ext_resource path="res://src/scripts/runway/Runway.cs" type="Script" id=9]
 [ext_resource path="res://src/assets/arts/speedometer/hand.png" type="Texture" id=10]
+[ext_resource path="res://src/scripts/SpeedometerHand.gd" type="Script" id=11]
 
 [node name="runway" type="Node"]
 script = ExtResource( 9 )
@@ -52,16 +53,10 @@ margin_top = -418.0
 texture = ExtResource( 4 )
 stretch_mode = 1
 
-[node name="SpeedometerHand" type="TextureRect" parent="SpeedometerScale"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -426.0
-margin_top = -425.0
-margin_right = 1.0
-margin_bottom = 2.0
+[node name="SpeedometerHand" type="Sprite" parent="SpeedometerScale"]
+position = Vector2( 207, 216 )
+scale = Vector2( 7, 7 )
 texture = ExtResource( 10 )
-stretch_mode = 1
+script = ExtResource( 11 )
 
 [connection signal="collision" from="runway/car" to="runway" method="_on_car_collision"]
