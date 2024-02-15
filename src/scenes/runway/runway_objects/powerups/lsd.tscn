@@ -1,0 +1,29 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://src/assets/arts/powerups/lsd-frame3.png" type="Texture" id=1]
+[ext_resource path="res://src/assets/arts/powerups/lsd-frame2.png" type="Texture" id=2]
+[ext_resource path="res://src/assets/arts/powerups/lsd.png" type="Texture" id=3]
+[ext_resource path="res://src/assets/arts/powerups/lsd-frame4.png" type="Texture" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 2 ), ExtResource( 1 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "floating",
+"speed": 4.0
+} ]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Area2D"]
+scale = Vector2( 0.25, 0.25 )
+frames = SubResource( 2 )
+animation = "floating"
+frame = 1
