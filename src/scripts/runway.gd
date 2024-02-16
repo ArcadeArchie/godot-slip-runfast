@@ -42,6 +42,8 @@ var controller_draw_sprites = true
 
 var speed = 0
 var max_speed = 720
+var max_speed_meth = 1080
+
 var centrifugal = 0.00009
 
 var accumulate_curve = 0
@@ -97,20 +99,7 @@ func _ready():
 
 func _process(_delta):
 	
-	if winner:
-		emit_signal("has_finished")
-		# warning-ignore:return_value_discarded
-		get_tree().change_scene("res://src/scenes/screens/winner.tscn")
 	
-	
-	hud_return.text = "lap  " + str(quantity_return) + "/" + "3"
-	if quantity_return == 3:
-		speed = 360
-		winner = true
-	
-	if current_position > RUNWAY_LENGTH && not start_time:
-		start_time = true
-		$music.play()
 	
 	var speed_percent = speed / 500
 	
@@ -124,6 +113,23 @@ func _process(_delta):
 	
 	
 func _draw():
+	hud_return.text = "lap  " + str(quantity_return) + "/" + "3"
+	if quantity_return == 3:
+		speed = 360
+		winner = true
+
+	if winner:
+		emit_signal("has_finished")
+		# warning-ignore:return_value_discarded
+		get_tree().change_scene("res://src/scenes/screens/winner.tscn")
+		
+		
+		
+	if current_position > RUNWAY_LENGTH && not start_time:
+		start_time = true
+		$music.play()
+	
+
 	
 	if $car.position.x < 160:
 		$car/body/AnimatedSprite.play("curve_right")
