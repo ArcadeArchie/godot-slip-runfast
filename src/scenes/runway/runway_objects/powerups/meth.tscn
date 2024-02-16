@@ -22,8 +22,10 @@ extents = Vector2( 12.6667, 13.75 )
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 2 )
 animation = "floating"
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
 position = Vector2( 0, 15 )
 scale = Vector2( 3, 4 )
 shape = SubResource( 1 )
