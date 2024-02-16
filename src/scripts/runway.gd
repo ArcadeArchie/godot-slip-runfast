@@ -72,6 +72,8 @@ var start_time:bool = false
 
 var winner:bool = false
 
+var speedometer_hand
+
 signal has_finished
 
 var road_block_pool
@@ -82,7 +84,8 @@ func _ready():
 		road_block_pool.append(road_block.instance())
 		_i += 1
 
-		
+	speedometer_hand = get_node("../SpeedometerScale/SpeedometerHand")
+
 	hud_return = get_node("../hud_return/return")
 		
 	$car.position = Vector2(960, 870)
@@ -111,6 +114,8 @@ func _process(_delta):
 	
 	var speed_percent = speed / 500
 	
+	speedometer_hand.rotation_degrees = speed / 4
+
 	controller_inputs()
 	controller_curve(speed_percent)
 	controller_position()
