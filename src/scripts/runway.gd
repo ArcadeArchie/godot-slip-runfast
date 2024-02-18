@@ -71,10 +71,12 @@ var instance_timer
 var instance_timer_step
 
 var start_time:bool = false
-
 var winner:bool = false
 
 var speedometer_hand
+
+var paused:bool = false
+var pause_overlay
 
 signal has_finished
 
@@ -87,7 +89,7 @@ func _ready():
 		_i += 1
 
 	speedometer_hand = get_node("../SpeedometerScale/SpeedometerHand")
-
+	pause_overlay = get_node("../user_menu/pause")
 	hud_return = get_node("../hud_return/return")
 		
 	$car.position = Vector2(960, 870)
@@ -209,6 +211,19 @@ func _input(event):
 		up_is_pressed = true
 	elif event.is_action_released("ui_up"):
 		up_is_pressed = false
+
+	if event.is_action_pressed("pause") && !paused:
+		pause_overlay.show()
+		set_process(false)
+		$music.stream_paused = true
+		paused = true
+	elif event.is_action_pressed("pause") && paused:
+		set_process(true)
+		pause_overlay.hide()
+		$music.stream_paused = false
+		paused = false
+	
+
 
 
 func render_polygon(color, x1, y1, w1, x2, y2, w2):
