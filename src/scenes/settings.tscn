@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/assets/fonts/wide.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/assets/arts/powerups/grabber.png" type="Texture" id=2]
@@ -8,16 +8,21 @@
 size = 91
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxLine" id=2]
-content_margin_top = 14.0
-content_margin_bottom = 14.0
-color = Color( 0.85098, 0.882353, 1, 1 )
-grow_begin = -6.0
-thickness = 0
+[sub_resource type="StyleBoxFlat" id=8]
+
+[sub_resource type="StyleBoxLine" id=6]
+color = Color( 0.145098, 0.145098, 0.145098, 1 )
+thickness = 10
 
 [sub_resource type="DynamicFont" id=3]
 size = 45
 font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+
+[sub_resource type="StyleBoxLine" id=7]
+color = Color( 0.14902, 0.14902, 0.14902, 1 )
+thickness = 10
 
 [sub_resource type="DynamicFont" id=4]
 size = 45
@@ -25,7 +30,7 @@ font_data = ExtResource( 1 )
 
 [sub_resource type="StyleBoxEmpty" id=5]
 
-[node name="Node2D" type="Node2D"]
+[node name="settings" type="Node2D"]
 script = ExtResource( 3 )
 
 [node name="Label" type="Label" parent="."]
@@ -40,12 +45,15 @@ align = 1
 valign = 1
 
 [node name="MusicSlider" type="HSlider" parent="."]
-margin_left = 428.0
+margin_left = 429.0
 margin_top = 385.0
-margin_right = 1492.0
+margin_right = 1493.0
 margin_bottom = 481.0
+mouse_default_cursor_shape = 10
+custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 2 )
+custom_styles/grabber_area_highlight = SubResource( 8 )
+custom_styles/grabber_area = SubResource( 6 )
 step = 0.01
 value = 100.0
 
@@ -62,8 +70,11 @@ margin_left = 429.0
 margin_top = 745.0
 margin_right = 1493.0
 margin_bottom = 841.0
+mouse_default_cursor_shape = 10
+custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 2 )
+custom_styles/grabber_area_highlight = SubResource( 9 )
+custom_styles/grabber_area = SubResource( 7 )
 step = 0.01
 value = 100.0
 
