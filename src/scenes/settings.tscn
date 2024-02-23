@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://src/assets/fonts/wide.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/assets/arts/powerups/grabber.png" type="Texture" id=2]
 [ext_resource path="res://src/scripts/settings.gd" type="Script" id=3]
+[ext_resource path="res://src/scripts/BackButton.gd" type="Script" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 91
@@ -43,6 +44,9 @@ custom_fonts/font = SubResource( 1 )
 text = "Settings"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="MusicSlider" type="HSlider" parent="."]
 margin_left = 429.0
@@ -56,6 +60,9 @@ custom_styles/grabber_area_highlight = SubResource( 8 )
 custom_styles/grabber_area = SubResource( 6 )
 step = 0.01
 value = 100.0
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Label2" type="Label" parent="."]
 margin_left = 882.0
@@ -64,6 +71,9 @@ margin_right = 1037.0
 margin_bottom = 387.0
 custom_fonts/font = SubResource( 3 )
 text = "Music"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="SFXSlider" type="HSlider" parent="."]
 margin_left = 429.0
@@ -77,6 +87,9 @@ custom_styles/grabber_area_highlight = SubResource( 9 )
 custom_styles/grabber_area = SubResource( 7 )
 step = 0.01
 value = 100.0
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Label3" type="Label" parent="."]
 margin_left = 760.0
@@ -85,8 +98,11 @@ margin_right = 1155.0
 margin_bottom = 745.0
 custom_fonts/font = SubResource( 3 )
 text = "Sound Effects"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
-[node name="Button" type="Button" parent="."]
+[node name="BackButton" type="Button" parent="."]
 margin_left = 57.0
 margin_top = 82.0
 margin_right = 244.0
@@ -98,3 +114,9 @@ custom_styles/focus = SubResource( 5 )
 custom_styles/disabled = SubResource( 5 )
 custom_styles/normal = SubResource( 5 )
 text = "< Back"
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[connection signal="pressed" from="BackButton" to="BackButton" method="_on_BackButton_pressed"]
