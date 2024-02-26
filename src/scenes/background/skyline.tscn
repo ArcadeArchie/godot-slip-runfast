@@ -10,3 +10,6 @@ scale = Vector2( 5.29023, 5.02571 )
 texture = ExtResource( 1 )
 centered = false
 offset = Vector2( -550, -25 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+follow_viewport_enable = true

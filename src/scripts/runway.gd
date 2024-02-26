@@ -4,7 +4,6 @@ onready var road_block = preload("res://src/scenes/runway/runway_objects/road_bl
 onready var line = preload("res://src/scripts/Line.gd")
 
 
-
 var WIDTH = OS.get_screen_size().x
 var HEIGHT = OS.get_screen_size().y
 
@@ -88,6 +87,7 @@ func _ready():
 		road_block_pool.append(road_block.instance())
 		_i += 1
 
+	audio_manager.stop_sound()
 	speedometer_hand = get_node("../SpeedometerScale/SpeedometerHand")
 	pause_overlay = get_node("../user_menu/pause")
 	hud_return = get_node("../hud_return/return")
@@ -115,7 +115,7 @@ func _process(_delta):
 	
 	
 func _draw():
-	hud_return.text = "lap  " + str(quantity_return) + "/" + "3"
+	hud_return.text = "distance  " + str(distance_x)
 	if quantity_return == 3:
 		speed = 360
 		winner = true
@@ -196,12 +196,10 @@ func _draw():
 
 func init():
 	for index in range(RUNWAY_LENGTH):
-		var struture_line = line.Line.new()
-		
-		lines.push_back(struture_line)
+		var structure_line = line.Line.new()
+		lines.push_back(structure_line)
 		add_colors(index)
 		lines[index].set_world_z(index * SEGMENT_LENGTH)
-		
 		controller_runway(index)
 	lines_length = lines.size()
 	set_process(true)
@@ -335,6 +333,7 @@ func controller_curve(speed_percent):
 
 
 func add_colors(index):
+	#Set red border size
 	if (index / 3) % 2:
 		lines[index].set_color_border(BORDER)
 		lines[index].set_color_runway(RUNWAY)
@@ -342,6 +341,7 @@ func add_colors(index):
 		lines[index].set_color_border(STRIPED_BORDER)
 		lines[index].set_color_runway(STRIPED_RUNWAY)
 		
+	#Set divide line gap size
 	if (index / 9) % 2:
 		lines[index].set_color_divid_line(DIVID_LINE)
 		lines[index].set_color_gramme(GRAMME)
@@ -355,37 +355,32 @@ func add_colors(index):
 	
 
 var curves = {
-	CURVE_RIGHT01 = 2.5,
-	CURVE_RIGHT02 = 3.5,
-	CURVE_RIGHT03 = 4.5,
-	CURVE_RIGHT04 = 5.5,
-	CURVE_RIGHT05 = 0.0,
-	CURVE_RIGHT06 = 7.5,
-	
-	CURVE_LEFT01 = -2.5,
-	CURVE_LEFT02 = -3.5,
-	CURVE_LEFT03 = -4.5,
-	CURVE_LEFT04 = -5.5,
-	CURVE_LEFT05 = 0.0,
-	CURVE_LEFT06 = -7.5
+	CURVE_01 = 3.5,
+	CURVE_02 = 4.5,
+	CURVE_03 = 5.5,
+	CURVE_04 = 0.0,
+	CURVE_05 = 7.5,
+
 }
 var curve_conditions = [
-	{"start": 150, "end": 250, "curve": curves.CURVE_RIGHT02},
-	{"start": 250, "end": 350, "curve": curves.CURVE_RIGHT03},
-	{"start": 350, "end": 550, "curve": curves.CURVE_RIGHT05},
-	{"start": 550, "end": 650, "curve": curves.CURVE_RIGHT06},
-	{"start": 650, "end": 1000, "curve": curves.CURVE_LEFT04},
-	{"start": 1000, "end": 1200, "curve": curves.CURVE_LEFT05},
-	{"start": 1200, "end": 1400, "curve": curves.CURVE_RIGHT06},
-	{"start": 1400, "end": 1600, "curve": curves.CURVE_RIGHT03},
-	{"start": 1600, "end": 1800, "curve": curves.CURVE_RIGHT05},
-	{"start": 1800, "end": 2000, "curve": curves.CURVE_LEFT03},
-	{"start": 2000, "end": 2200, "curve": curves.CURVE_LEFT05},
-	{"start": 2200, "end": 2400, "curve": curves.CURVE_RIGHT05},
-	{"start": 2400, "end": 2600, "curve": curves.CURVE_RIGHT06},
-	{"start": 2600, "end": 2800, "curve": curves.CURVE_LEFT05},
-	{"start": 2800, "end": 3000, "curve": curves.CURVE_LEFT06},
+	{"start": 150, "end": 250, "curve": curves.CURVE_01},
+	{"start": 250, "end": 350, "curve": curves.CURVE_02},
+	{"start": 350, "end": 550, "curve": curves.CURVE_04},
+	{"start": 550, "end": 650, "curve": curves.CURVE_05},
+	{"start": 650, "end": 1000, "curve": -curves.CURVE_03},
+	{"start": 1000, "end": 1200, "curve": -curves.CURVE_04},
+	{"start": 1200, "end": 1400, "curve": curves.CURVE_05},
+	{"start": 1400, "end": 1600, "curve": curves.CURVE_02},
+	{"start": 1600, "end": 1800, "curve": curves.CURVE_04},
+	{"start": 1800, "end": 2000, "curve": -curves.CURVE_02},
+	{"start": 2000, "end": 2200, "curve": -curves.CURVE_04},
+	{"start": 2200, "end": 2400, "curve": curves.CURVE_04},
+	{"start": 2400, "end": 2600, "curve": curves.CURVE_05},
+	{"start": 2600, "end": 2800, "curve": -curves.CURVE_04},
+	{"start": 2800, "end": 3000, "curve": -curves.CURVE_05},
 ]
+
+
 var blocks = 0
 func controller_runway(index):	
 	if blocks >= road_block_pool.size():
@@ -403,8 +398,7 @@ func controller_runway(index):
 			lines[index].set_curve(condition["curve"])
 	
 	# Additional condition for the last case
-	if index > 3000:
-		lines[index].set_curve(curves.CURVE_LEFT06)
+
 	
 func _on_car_collision():
 	current_position -= 2000

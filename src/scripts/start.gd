@@ -1,6 +1,7 @@
 extends Control
 
+
 func _ready():
-	$music.play()
+	audio_manager.play_sound()
 
 
