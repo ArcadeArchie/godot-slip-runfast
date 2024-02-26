@@ -115,7 +115,7 @@ func _process(_delta):
 	
 	
 func _draw():
-	hud_return.text = "distance  " + str(distance_x)
+	hud_return.text = "Score:  " + str(current_position / 1000)
 	if quantity_return == 3:
 		speed = 360
 		winner = true
@@ -353,13 +353,17 @@ func add_colors(index):
 		lines[index].set_color_runway(Color(204, 204, 204))
 		lines[index].set_color_divid_line(Color(204, 204, 204))
 	
+func generate_curve():
+	randomize()
+	#Generate float from -10 to 10
+	return rand_range(-7, 7)
 
 var curves = {
-	CURVE_01 = 3.5,
-	CURVE_02 = 4.5,
-	CURVE_03 = 5.5,
-	CURVE_04 = 0.0,
-	CURVE_05 = 7.5,
+	CURVE_01 = generate_curve(),
+	CURVE_02 = generate_curve(),
+	CURVE_03 = generate_curve(),
+	CURVE_04 = generate_curve(),
+	CURVE_05 = generate_curve(),
 
 }
 var curve_conditions = [
@@ -380,6 +384,11 @@ var curve_conditions = [
 	{"start": 2800, "end": 3000, "curve": -curves.CURVE_05},
 ]
 
+func generate_curve_conditions():
+	for i in range(15):
+		curve_conditions.append({"start": 150 + (i * 100), "end": 250 + (i * 100), "curve": generate_curve()})
+		i += 1
+
 
 var blocks = 0
 func controller_runway(index):	
@@ -390,7 +399,7 @@ func controller_runway(index):
 	if (index > 200 && index % 140 == 0):
 		lines[index].set_name_sprite(5)
 		lines[index].set_sprite(instance_road_block)
-		lines[index].set_sprite_x(rand_range(-2, 2))
+		lines[index].set_sprite_x(rand_range(-3, 3))
 	
 	# Curve on right
 	for condition in curve_conditions:

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/scenes/screens/start.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/scenes/settings.tscn" type="PackedScene" id=2]
 
 [node name="main" type="Node"]
 
@@ -9,3 +10,6 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+
+[node name="settings2" parent="." instance=ExtResource( 2 )]
+visible = false
