@@ -61,13 +61,10 @@ var skyline
 
 var hud_time
 var hud_return
-var timer
 
 var quantity_return:int = 0
 
-var instance_timer
 
-var instance_timer_step
 
 var start_time:bool = false
 var winner:bool = false
@@ -126,11 +123,9 @@ func _draw():
 		
 		
 		
-	if current_position > RUNWAY_LENGTH && not start_time:
+	if current_position > RUNWAY_LENGTH && !start_time:
 		start_time = true
 		$music.play()
-	
-
 	
 	if $car.position.x < 160:
 		$car/body/AnimatedSprite.play("curve_right")
@@ -209,18 +204,54 @@ func _input(event):
 	elif event.is_action_released("ui_up"):
 		up_is_pressed = false
 
+
 	if event.is_action_pressed("pause") && !paused:
 		pause_overlay.show()
 		set_process(false)
 		set_physics_process(false)
 		$music.stream_paused = true
 		paused = true
+
 	elif event.is_action_pressed("pause") && paused:
 		set_process(true)
 		set_physics_process(true)
 		pause_overlay.hide()
 		$music.stream_paused = false
 		paused = false
+
+	if Input.is_action_pressed("ui_up"):
+		
+		if Input.is_action_pressed("ui_right"):
+			
+			$car.position.x += 25
+			if [accumulate_curve,speed] > [100000,500]:
+				$car/body/AnimatedSprite.play("slip_right")
+				$car/body/AnimationCollision.play("animation_slip_right")
+			else:
+				$car/body/AnimatedSprite.play("curve_right")
+				$car/body/AnimationCollision.play("right")
+				play_curve += 1
+			
+		elif Input.is_action_pressed("ui_left"):
+			
+			$car.position.x -= 25
+			if [accumulate_curve,speed] < [-100000,500]:
+				$car/body/AnimatedSprite.play("slip_left")
+				$car/body/AnimationCollision.play("animation_slip_left")
+			else:
+				$car/body/AnimatedSprite.play("curve_left")
+				$car/body/AnimationCollision.play("left")
+				play_curve -= 1
+		else:
+			$car/body/AnimatedSprite.play("idle")
+			$car/body/AnimationCollision.play("idle")
+
+		speed += 5
+		
+	else:
+		$car/body/AnimatedSprite.play("idle")
+		$car/body/AnimationCollision.play("idle")
+		speed -= 5
 	
 
 
@@ -237,10 +268,10 @@ func render_polygon(color, x1, y1, w1, x2, y2, w2):
 
 
 func controller_skyline(start_point):
-	if speed > 500:
-		skyline.position -= Vector2(lines[start_point].get_curve() * 1, 0)
-	elif speed < -500:
-		skyline.position += Vector2(lines[start_point].get_curve() * 1, 0)
+	if speed > 300:
+		skyline.position.x -= lines[start_point].get_curve() * 0.5
+	elif speed < -300:
+		skyline.position.x += lines[start_point].get_curve() * 0.5
 	
 
 func draw_sprites():
@@ -282,7 +313,7 @@ func controller_position():
 
 func controller_inputs():
 	
-	if up_is_pressed:
+	if Input.is_action_pressed("ui_up"):
 		
 		if Input.is_action_pressed("ui_right"):
 			
