@@ -110,10 +110,6 @@ func _physics_process(_delta):
 
 
 func _process(_delta):
-	
-	
-	
-	
 	update()
 	
 	
