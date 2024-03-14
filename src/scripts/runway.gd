@@ -101,7 +101,6 @@ func _ready():
 func _physics_process(_delta):
 	
 	var speed_percent = speed / 500
-	
 	speedometer_hand.rotation_degrees = speed / 4.0
 
 	controller_inputs()
@@ -110,6 +109,7 @@ func _physics_process(_delta):
 
 
 func _process(_delta):
+
 	update()
 	
 	
@@ -212,10 +212,12 @@ func _input(event):
 	if event.is_action_pressed("pause") && !paused:
 		pause_overlay.show()
 		set_process(false)
+		set_physics_process(false)
 		$music.stream_paused = true
 		paused = true
 	elif event.is_action_pressed("pause") && paused:
 		set_process(true)
+		set_physics_process(true)
 		pause_overlay.hide()
 		$music.stream_paused = false
 		paused = false
