@@ -63,7 +63,7 @@ var hud_time
 var hud_return
 var timer
 
-var quantity_return = 0
+var quantity_return:int = 0
 
 var instance_timer
 
@@ -98,18 +98,21 @@ func _ready():
 	set_process_input(true)
 	init()
 	
+func _physics_process(_delta):
+	
+	var speed_percent = speed / 500
+	
+	speedometer_hand.rotation_degrees = speed / 4.0
+
+	controller_inputs()
+	controller_curve(speed_percent)
+	controller_position()
+
 
 func _process(_delta):
 	
 	
 	
-	var speed_percent = speed / 500
-	
-	speedometer_hand.rotation_degrees = speed / 4
-
-	controller_inputs()
-	controller_curve(speed_percent)
-	controller_position()
 	
 	update()
 	

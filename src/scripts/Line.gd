@@ -113,16 +113,19 @@ class Line:
 	func set_color_divid_line(value):
 		self._divid_line = value
 		
-		
 	func screen_coordinates(cam_x, cam_y, cam_z, camera_depth, road_width, width, height):
-		self._scale = camera_depth / ((self._world_z - cam_z) if (self._world_z - cam_z) > 0 else 0.01)
-		self._screen_x = ((1 + self._scale * (self._world_x - cam_x)) * width / 2)
-		self._screen_y = ((1 - self._scale * (self._world_y - cam_y)) * height / 2)
-		self._screen_w = (self._scale * road_width * (width / 2))
-	
+		var scale = camera_depth / ((self._world_z - cam_z) if (self._world_z - cam_z) > 0 else 0.01)
+		var screen_x = (1 + scale * (self._world_x - cam_x)) * width / 2
+		var screen_y = (1 - scale * (self._world_y - cam_y)) * height / 2
+		var screen_w = scale * road_width * (width / 2)
+
+		self._scale = scale
+		self._screen_x = screen_x
+		self._screen_y = screen_y
+		self._screen_w = screen_w
 
 	func run_sprite(width, height):
-		var offsetX = self._screen_x + self._scale * self._sprite_x * 1920 / 2
+		var offsetX = self._screen_x + self._scale * self._sprite_x * 960
 		var offsetY = self._screen_y + 8
 		var offsetW = width * self._screen_w / 266
 		var offsetH = height * self._screen_w / 266
