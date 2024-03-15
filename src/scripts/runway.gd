@@ -4,15 +4,15 @@ onready var road_block = preload("res://src/scenes/runway/runway_objects/road_bl
 onready var line = preload("res://src/scripts/Line.gd")
 
 
-var WIDTH = OS.get_screen_size().x
-var HEIGHT = OS.get_screen_size().y
+var WIDTH:int = OS.get_screen_size().x
+var HEIGHT:int = OS.get_screen_size().y
 
 
 
-export var RUNWAY_LENGTH = 2800
-export var RUNWAY_WIDTH = 2500
-export var SEGMENT_LENGTH = 400
-export var CAMERA_DEPTH = 0.84
+export var RUNWAY_LENGTH:int = 99999
+export var RUNWAY_WIDTH:int = 2500
+export var SEGMENT_LENGTH:int = 400
+export var CAMERA_DEPTH:float = 0.84
 
 export var BORDER:Color
 export var RUNWAY:Color
@@ -76,6 +76,8 @@ var pause_overlay
 
 signal has_finished
 
+var timer_csharp
+
 var road_block_pool
 func _ready():
 	randomize()
@@ -88,6 +90,7 @@ func _ready():
 	speedometer_hand = get_node("../SpeedometerScale/SpeedometerHand")
 	pause_overlay = get_node("../user_menu/pause")
 	hud_return = get_node("../hud_return/return")
+	timer_csharp = get_node("../HUD_TotalTime")
 		
 	$car.position = Vector2(960, 870)
 	skyline = get_node("../skyline/Sprite")
@@ -209,12 +212,17 @@ func _input(event):
 		pause_overlay.show()
 		set_process(false)
 		set_physics_process(false)
+
+		timer_csharp.stop()
+
 		$music.stream_paused = true
 		paused = true
 
 	elif event.is_action_pressed("pause") && paused:
 		set_process(true)
 		set_physics_process(true)
+
+		timer_csharp.start()
 		pause_overlay.hide()
 		$music.stream_paused = false
 		paused = false
@@ -269,9 +277,9 @@ func render_polygon(color, x1, y1, w1, x2, y2, w2):
 
 func controller_skyline(start_point):
 	if speed > 300:
-		skyline.position.x -= lines[start_point].get_curve() * 0.5
+		skyline.position.x -= lines[start_point].get_curve()
 	elif speed < -300:
-		skyline.position.x += lines[start_point].get_curve() * 0.5
+		skyline.position.x += lines[start_point].get_curve()
 	
 
 func draw_sprites():
