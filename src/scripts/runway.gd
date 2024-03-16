@@ -98,18 +98,20 @@ func _ready():
 	set_process_input(true)
 	init()
 	
-func _physics_process(_delta):
 	
+func _physics_process(_delta):
+	speedometer_hand.rotation_degrees = speed / 4
 	var speed_percent = speed / 500
-	speedometer_hand.rotation_degrees = speed / 4.0
-
-	controller_inputs()
 	controller_curve(speed_percent)
 	controller_position()
+	controller_inputs()
+	
+	
+
+	
 
 
 func _process(_delta):
-
 	update()
 	
 	
@@ -182,14 +184,17 @@ func _draw():
 		var x = previous_line.get_screen_x()
 		var w = previous_line.get_screen_w()
 
+		#Grass around the road
 		render_polygon(current_line.get_color_gramme(), 0, y, WIDTH, 0, currY, WIDTH)
-		render_polygon(current_line.get_color_border(), x, y, w * 1.1, currX, currY, currW * 1.1)
+		#Road borders: red and white
+		#render_polygon(current_line.get_color_border(), x, y, w * 1.1, currX, currY, currW * 1.1)
+		#Main road: dark grey
 		render_polygon(current_line.get_color_runway(), x, y, w, currX, currY, currW)
+		#Two-lane road divider
 		render_polygon(current_line.get_color_divid_line(), x, y, w * 0.02, currX, currY, currW * 0.02)
 	
 	draw_sprites()
 	update_position_sprites(start_point)
-	
 
 func init():
 	for index in range(RUNWAY_LENGTH):

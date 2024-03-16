@@ -21,6 +21,7 @@ layer = 100
 [node name="pause" parent="user_menu" instance=ExtResource( 7 )]
 
 [node name="skyline" parent="." instance=ExtResource( 3 )]
+visible = false
 position = Vector2( -591, 51 )
 
 [node name="runway" type="Node2D" parent="."]
